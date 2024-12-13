@@ -103,13 +103,24 @@
         android:layout_marginTop="336dp"
         android:background="@drawable/rounded_transparent_btn"
         android:padding="15dp"
-        android:text="Login"
+        android:text="Register"
         android:textColor="@color/blue_color"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcome_back_title" />
+
+    <TextView
+        android:id="@+id/login_hyperlink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="You already have an account?"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.286"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
