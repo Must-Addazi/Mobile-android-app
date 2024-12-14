@@ -1,5 +1,6 @@
 package ma.ensas.mini_projet.ui.auth
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -29,6 +30,7 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -40,23 +42,22 @@ class LoginFragment : Fragment() {
             username = binding.username.text.toString()
             password = binding.password.text.toString()
 
-            if(username.isNullOrEmpty() or username.isNullOrBlank()) {
-                binding.errorMsg.text = "Both Fields Are Required!"
-            }
-            else {
-                try {
-                    handleLogin(username!!, password!!)
-                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-                } catch (ex: Exception) {
-                    binding.errorMsg.text = "invalid credentials!"
-                }
+            try {
+                handleLogin(username!!, password!!)
+                findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+            } catch (ex: Exception) {
+                binding.errorMsg.text = "invalid credentials!"
             }
         }
 
     }
 
     private fun handleLogin(username: String, password: String) {
-        if(username == "user" && password == "user") {
+
+        if(username.isEmpty() or username.isBlank() or password.isEmpty() or password.isBlank()) {
+            throw Exception("Credentials aren't correct")
+        }
+        else if(username == "user" && password == "user") {
             println("Logged in successfully")
         }
         else {
