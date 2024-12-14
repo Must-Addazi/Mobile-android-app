@@ -10,12 +10,12 @@
     <ImageView
         android:id="@+id/img_logo"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="200dp"
         android:contentDescription="@string/welcome_img_desc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/logo"
+        android:src="@drawable/logo"
         android:scaleType="fitXY"/>
 
 
@@ -39,8 +39,10 @@
         android:layout_width="280dp"
         android:layout_height="63dp"
         android:layout_marginTop="24dp"
+        android:autofillHints="username"
         android:background="@drawable/auth_input_bg"
         android:hint="username"
+        android:inputType="text"
         android:paddingHorizontal="25dp"
         app:layout_constraintBottom_toTopOf="@+id/email"
         app:layout_constraintEnd_toEndOf="@+id/email"
@@ -53,6 +55,7 @@
         android:layout_width="280dp"
         android:layout_height="63dp"
         android:layout_marginTop="13dp"
+        android:autofillHints="emailAddress"
         android:background="@drawable/auth_input_bg"
         android:hint="example@uca.ma"
         android:inputType="textEmailAddress"
@@ -69,6 +72,7 @@
         android:layout_width="280dp"
         android:layout_height="63dp"
         android:layout_marginTop="10dp"
+        android:autofillHints="password"
         android:background="@drawable/auth_input_bg"
         android:hint="password"
         android:inputType="textPassword"
@@ -103,13 +107,25 @@
         android:layout_marginTop="336dp"
         android:background="@drawable/rounded_transparent_btn"
         android:padding="15dp"
-        android:text="Login"
+        android:text="Register"
         android:textColor="@color/blue_color"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcome_back_title" />
+
+    <TextView
+        android:id="@+id/login_hyperlink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="You already have an account?"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.344"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
