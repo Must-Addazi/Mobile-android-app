@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import ma.ensas.mini_projet.MainActivity
 import ma.ensas.mini_projet.R
 import ma.ensas.mini_projet.databinding.FragmentRegisterBinding
 import ma.ensas.mini_projet.databinding.FragmentWelcomeBinding
@@ -22,6 +23,16 @@ class RegisterFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as? MainActivity)?.hideAppBar()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as? MainActivity)?.showAppBar()
     }
 
     override fun onCreateView(
