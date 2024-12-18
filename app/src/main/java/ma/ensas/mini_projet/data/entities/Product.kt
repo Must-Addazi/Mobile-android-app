@@ -10,7 +10,7 @@ import java.util.Date
 @Entity(tableName = "products")
 data class Product(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val productId: Int,
     val name: String,
     val description: String,
     val detailedDescription: String,

@@ -8,14 +8,16 @@ import java.util.Date
 
 @Entity(tableName = "users")
 data class User(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int,
     val username: String,
     val email: String,
     val password: String,
-    val phoneNumber: String,
-    val birthDate: Date,
+    val phoneNumber: String?,
+    val birthDate: Date?,
+
     @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
     val profileImage: ByteArray?,
-    val role: Roles
+    val role: Roles = Roles.USER,
+
+    @PrimaryKey(autoGenerate = true)
+    val userId: Int = 0,
 )

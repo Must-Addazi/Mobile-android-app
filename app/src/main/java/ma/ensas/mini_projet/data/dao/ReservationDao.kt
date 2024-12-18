@@ -18,12 +18,12 @@ interface ReservationDao {
     @Delete
     suspend fun deleteReservationById(reservation: Reservation)
 
-//    @Transaction
-//    @Query("SELECT * FROM reservations")
-//    fun getAllReservations() : Flow<List<ReservationWithProducts>>
-//
-//    @Transaction
-//    @Query("SELECT * FROM reservations WHERE id = :reservationId")
-//    suspend fun getReservationById(reservationId: Int) : ReservationWithProducts
+    @Transaction
+    @Query("SELECT * FROM reservations")
+    fun getAllReservations() : Flow<List<Reservation>>
+
+    @Transaction
+    @Query("SELECT * FROM reservations WHERE id = :reservationId")
+    suspend fun getReservationsById(reservationId: Int) : Reservation
 
 }

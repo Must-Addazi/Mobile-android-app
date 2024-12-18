@@ -18,16 +18,20 @@ interface UserDao {
     @Delete
     suspend fun deleteUser(user: User)
 
+    @Transaction
+    @Query("SELECT * FROM users")
+    fun getUsers() : Flow<List<User>>
+
 //    @Transaction
 //    @Query("SELECT * FROM users")
-//    fun getAllUsersWithReservations() : Flow<List<UserWithReservations>>
+//    fun getAllUsersWithProducts() : Flow<List<UserWithProducts>>
 //
 //    @Transaction
 //    @Query("SELECT * FROM users WHERE id = :userId")
-//    suspend fun getUserById(userId: Int) : UserWithReservations
+//    suspend fun getUserById(userId: Int) : UserWithProducts
 //
 //    @Transaction
 //    @Query("SELECT * FROM users WHERE email = :userEmail")
-//    suspend fun getUserByEmail(userEmail: String) : UserWithReservations
+//    suspend fun getUserByEmail(userEmail: String) : UserWithProducts
 
 }

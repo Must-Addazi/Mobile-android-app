@@ -6,20 +6,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import ma.ensas.mini_projet.MainActivity
 import ma.ensas.mini_projet.R
 import ma.ensas.mini_projet.databinding.FragmentRegisterBinding
-import ma.ensas.mini_projet.databinding.FragmentWelcomeBinding
 
 class RegisterFragment : Fragment() {
 
     private var _binding: FragmentRegisterBinding? = null
+    private lateinit var registrationViewModel: RegistrationViewModel
     private val binding get() = _binding!!
-    private var username: String? = null
-    private var password: String? = null
-    private var password2: String? = null
-    private var email: String? = null
+
+    private lateinit var username: String
+    private lateinit var password: String
+    private lateinit var password2: String
+    private lateinit var email: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,9 +52,13 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.loginHyperlink.setOnClickListener {
-            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
-        }
+        registrationViewModel = ViewModelProvider(this).get(RegistrationViewModel::class.java)
+
+        registrationViewModel.registrationStatus.observe(viewLifecycleOwner, Observer { success ->
+            if(success) {
+                findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+            }
+        })
 
         binding.register.setOnClickListener {
             username = binding.username.text.toString()
@@ -59,23 +67,19 @@ class RegisterFragment : Fragment() {
             email = binding.email.text.toString()
 
             try {
-                handleRegistration(username!!, email!!, password!!, password2!!)
-                findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+                if(username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && password2.isNotEmpty())
+                    registrationViewModel.registerUser(username, email, password, password2)
+                else {
+                    binding.errorMsg.text = "Please fill all fields"
+                }
+
             } catch (ex: Exception) {
                 binding.errorMsg.text = "invalid credentials!"
             }
         }
-    }
 
-    private fun handleRegistration(username: String, email: String, password: String, password2: String) {
-
-        if(username.isEmpty() or username.isBlank() or password.isEmpty() or password.isBlank()
-            or password2.isEmpty() or password2.isBlank() or email.isEmpty() or email.isBlank())
-        {
-            throw Exception("Credentials aren't correct")
-        }
-        else {
-            throw Exception("Credentials aren't correct")
+        binding.loginHyperlink.setOnClickListener {
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
         }
     }
 
