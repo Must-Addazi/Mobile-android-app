@@ -12,97 +12,82 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:contentDescription="@string/welcome_img_desc"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:scaleType="fitXY"
         android:src="@drawable/logo"
-        android:scaleType="fitXY" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-
-    <TextView
-        android:id="@+id/welcome_back_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="88dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:gravity="center"
-        android:text="@string/welcome_back_title"
-        android:textColor="@color/dark_gray_color"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_logo" />
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/img_logo"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="193dp">
 
-    <TextView
-        android:id="@+id/error_msg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:textColor="@color/soft_red_color"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/username"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.266"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/welcome_back_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/welcome_back_title"
+            android:textColor="@color/dark_gray_color"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginTop="120dp"/>
 
-    <EditText
-        android:id="@+id/username"
-        android:layout_width="280dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="58dp"
-        android:autofillHints="username"
-        android:background="@drawable/auth_input_bg"
-        android:hint="username"
-        android:inputType="text"
-        android:paddingHorizontal="25dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_back_title" />
+        <TextView
+            android:id="@+id/error_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/soft_red_color"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="280dp"
-        android:layout_height="63dp"
-        android:layout_marginBottom="33dp"
-        android:autofillHints="password"
-        android:background="@drawable/auth_input_bg"
-        android:hint="password"
-        android:inputType="textPassword"
-        android:paddingHorizontal="25dp"
-        app:layout_constraintBottom_toTopOf="@+id/login"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username"
-        app:layout_constraintVertical_bias="1.0" />
+        <EditText
+            android:id="@+id/username"
+            android:layout_width="280dp"
+            android:layout_height="63dp"
+            android:autofillHints="username"
+            android:background="@drawable/auth_input_bg"
+            android:hint="username"
+            android:inputType="text"
+            android:layout_marginTop="10dp"/>
 
-    <Button
-        android:id="@+id/login"
-        android:layout_width="280dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="228dp"
-        android:background="@drawable/rounded_transparent_btn"
-        android:padding="15dp"
-        android:text="Login"
-        android:textColor="@color/blue_color"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_back_title" />
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="280dp"
+            android:layout_height="63dp"
+            android:autofillHints="password"
+            android:background="@drawable/auth_input_bg"
+            android:hint="password"
+            android:inputType="textPassword"
+            android:paddingHorizontal="25dp"
+            android:layout_marginTop="15dp"/>
 
-    <TextView
-        android:id="@+id/register_hyperlink"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="You already have an account?"
-        android:textSize="12sp"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.332"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login" />
+        <Button
+            android:id="@+id/login"
+            android:layout_width="280dp"
+            android:layout_height="63dp"
+            android:background="@drawable/rounded_transparent_btn"
+            android:padding="15dp"
+            android:text="Login"
+            android:textColor="@color/blue_color"
+            android:textSize="20sp"
+            android:layout_marginTop="15dp"/>
+
+        <TextView
+            android:id="@+id/register_hyperlink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="You already have an account?"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

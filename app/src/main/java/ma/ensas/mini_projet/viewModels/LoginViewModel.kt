@@ -10,9 +10,11 @@ import kotlinx.coroutines.launch
 import ma.ensas.mini_projet.data.dao.UserDao
 import ma.ensas.mini_projet.data.database.DatabaseProvider
 import ma.ensas.mini_projet.data.entities.User
+import ma.ensas.mini_projet.utils.SessionManager
 
 class LoginViewModel(app: Application) : AndroidViewModel(app) {
     private val userDao: UserDao = DatabaseProvider.getDatabase(app).userDao()
+    private val sessionManager: SessionManager = SessionManager(app)
 
     private val _loginStatus = MutableLiveData<Boolean>()
     val loginStatus: LiveData<Boolean> get() = _loginStatus
@@ -27,6 +29,7 @@ class LoginViewModel(app: Application) : AndroidViewModel(app) {
                 if (user != null) {
                     _loggedInUser.postValue(user)
                     _loginStatus.postValue(true)
+                    sessionManager.saveUsername(username)
                 } else {
                     _loginStatus.postValue(false)
                 }
@@ -35,5 +38,11 @@ class LoginViewModel(app: Application) : AndroidViewModel(app) {
                 Log.e("Login", "Failed To Login")
             }
         }
+    }
+
+    fun logout() {
+        _loggedInUser.postValue(null)
+        _loginStatus.postValue(false)
+        sessionManager.clearSession()
     }
 }
