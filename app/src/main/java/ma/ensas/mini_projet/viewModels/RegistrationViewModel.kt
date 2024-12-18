@@ -1,4 +1,4 @@
-package ma.ensas.mini_projet.ui.auth
+package ma.ensas.mini_projet.viewModels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
