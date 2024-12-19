@@ -18,128 +18,97 @@
         android:src="@drawable/logo"
         android:scaleType="fitXY"/>
 
-
-    <TextView
-        android:id="@+id/welcome_back_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:gravity="center"
-        android:text="@string/welcome_back_title"
-        android:textColor="@color/dark_gray_color"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_logo" />
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/img_logo"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="193dp">
 
-    <TextView
-        android:id="@+id/error_msg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="9dp"
-        android:textColor="@color/soft_red_color"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/username"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.275"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/welcome_back_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/welcome_back_title"
+            android:textColor="@color/dark_gray_color"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginTop="140dp"/>
 
-    <EditText
-        android:id="@+id/username"
-        android:layout_width="280dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="24dp"
-        android:autofillHints="username"
-        android:background="@drawable/auth_input_bg"
-        android:hint="username"
-        android:inputType="text"
-        android:paddingHorizontal="25dp"
-        app:layout_constraintBottom_toTopOf="@+id/email"
-        app:layout_constraintEnd_toEndOf="@+id/email"
-        app:layout_constraintStart_toStartOf="@+id/email"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_back_title"
-        app:layout_constraintVertical_bias="0.5" />
+        <TextView
+            android:id="@+id/error_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/soft_red_color"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/email"
-        android:layout_width="280dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="13dp"
-        android:autofillHints="emailAddress"
-        android:background="@drawable/auth_input_bg"
-        android:hint="example@uca.ma"
-        android:inputType="textEmailAddress"
-        android:paddingHorizontal="25dp"
-        app:layout_constraintBottom_toTopOf="@+id/password"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username"
-        app:layout_constraintVertical_bias="0.5" />
+        <EditText
+            android:id="@+id/username"
+            android:layout_width="280dp"
+            android:layout_height="63dp"
+            android:autofillHints="username"
+            android:background="@drawable/auth_input_bg"
+            android:hint="username"
+            android:inputType="text"
+            android:paddingHorizontal="25dp" />
 
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="280dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="10dp"
-        android:autofillHints="password"
-        android:background="@drawable/auth_input_bg"
-        android:hint="password"
-        android:inputType="textPassword"
-        android:paddingHorizontal="25dp"
-        app:layout_constraintBottom_toTopOf="@+id/confirm_password"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email"
-        app:layout_constraintVertical_bias="0.5" />
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="280dp"
+            android:layout_height="63dp"
+            android:autofillHints="emailAddress"
+            android:background="@drawable/auth_input_bg"
+            android:hint="example@uca.ma"
+            android:inputType="textEmailAddress"
+            android:paddingHorizontal="25dp"
+            android:layout_marginTop="15dp"/>
 
-    <EditText
-        android:id="@+id/confirm_password"
-        android:layout_width="280dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="13dp"
-        android:layout_marginBottom="24dp"
-        android:background="@drawable/auth_input_bg"
-        android:hint="confirm password"
-        android:inputType="textPassword"
-        android:paddingHorizontal="25dp"
-        app:layout_constraintBottom_toTopOf="@+id/register"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"
-        app:layout_constraintVertical_bias="0.5" />
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="280dp"
+            android:layout_height="63dp"
+            android:autofillHints="password"
+            android:background="@drawable/auth_input_bg"
+            android:hint="password"
+            android:inputType="textPassword"
+            android:paddingHorizontal="25dp"
+            android:layout_marginTop="15dp"/>
 
-    <Button
-        android:id="@+id/register"
-        android:layout_width="280dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="336dp"
-        android:background="@drawable/rounded_transparent_btn"
-        android:padding="15dp"
-        android:text="Register"
-        android:textColor="@color/blue_color"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_back_title" />
+        <EditText
+            android:id="@+id/confirm_password"
+            android:layout_width="280dp"
+            android:layout_height="63dp"
+            android:background="@drawable/auth_input_bg"
+            android:hint="confirm password"
+            android:inputType="textPassword"
+            android:paddingHorizontal="25dp"
+            android:layout_marginTop="15dp"/>
 
-    <TextView
-        android:id="@+id/login_hyperlink"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="You already have an account?"
-        android:textSize="12sp"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.344"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register" />
+        <Button
+            android:id="@+id/register"
+            android:layout_width="280dp"
+            android:layout_height="63dp"
+            android:background="@drawable/rounded_transparent_btn"
+            android:padding="15dp"
+            android:text="Register"
+            android:textColor="@color/blue_color"
+            android:textSize="20sp"
+            android:layout_marginTop="15dp" />
+
+        <TextView
+            android:id="@+id/login_hyperlink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="You already have an account?"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
