@@ -15,6 +15,9 @@ interface ProductDao {
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertProduct(prod: Product)
 
+    @Insert(onConflict = OnConflictStrategy.ABORT)
+    suspend fun insertProducts(products: List<Product>)
+
     @Delete
     suspend fun deleteProduct(product: Product)
 

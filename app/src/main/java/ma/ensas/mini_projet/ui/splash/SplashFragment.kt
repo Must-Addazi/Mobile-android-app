@@ -51,7 +51,7 @@ class SplashFragment : Fragment() {
         splashViewModel.userAlreadyLoggedIn.observe(viewLifecycleOwner, Observer { userAuthenticated ->
             if(userAuthenticated) {
                 android.os.Handler().postDelayed({
-                    findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
+                    findNavController().navigate(R.id.action_splashFragment_to_homeFragment2)
                 }, 3000)
             }
             else {
