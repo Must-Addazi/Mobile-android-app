@@ -1,81 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="140dp"
     android:orientation="horizontal"
-    android:padding="8dp"
-    android:background="@android:color/white"
-    android:layout_margin="8dp"
+    android:padding="10dp"
+    android:background="@drawable/item_bg"
     android:elevation="4dp">
-
-    <ImageView
-        android:id="@+id/productImage"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/logo"
-        android:scaleType="centerCrop"
-        android:layout_gravity="center_vertical"
-        android:layout_marginEnd="16dp" />
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
+        app:layout_constraintWidth_percent="0.28"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="8dp">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:padding="8dp">
-                    <TextView
-                        android:id="@+id/name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Name"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="#000000" />
-                <TextView
-                    android:id="@+id/type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:text="Type"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="#000000" />
-            </LinearLayout>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/productImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:contentDescription="Product Description"
+            android:scaleType="centerCrop"
+            android:src="@drawable/logo"
+            app:shapeAppearanceOverlay="@style/CircularShape"
+            android:layout_gravity="center"/>
+
         <TextView
-            android:id="@+id/description"
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Name"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"/>
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.71"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="description"
+            android:textColor="#000000"
             android:textSize="16sp"
-            android:textColor="#000000" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginHorizontal="10dp"/>
+
+        <TextView
+            android:id="@+id/type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="6dp"
+            android:text="Type"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="6dp"
             android:text="price:220DH"
+            android:textColor="#000000"
             android:textSize="16sp"
-            android:textColor="#000000" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-        <TextView
-            android:id="@+id/stock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="stock"
-            android:textSize="16sp"
-            android:textColor="#000000" />
-        <TextView
-            android:id="@+id/expiredAt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="expired At :  20/02/2020"
-            android:textSize="16sp"
-            android:textColor="#000000" />
-    </LinearLayout>
-</LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

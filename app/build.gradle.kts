@@ -65,6 +65,11 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
 
+    // Material Icons
+    implementation(libs.material.v190)
+
+    // Card View
+    implementation(libs.androidx.cardview)
 }
 java {
     toolchain {

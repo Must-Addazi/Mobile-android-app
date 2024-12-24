@@ -17,8 +17,6 @@ class ProductAdapter(private var productList:List<Product>,
             binding.name.text =  "${product.productId}"
             binding.price.text = "${product.price} MAD"
             binding.type.text = product.type.toString()
-            binding.stock.text = product.stock.toString()
-            binding.expiredAt.text= product.expirationDate.toString()
             binding.description.text=product.description
             product.productImage?.let { byteArray ->
                 val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
