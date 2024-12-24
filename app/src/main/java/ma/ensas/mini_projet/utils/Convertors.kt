@@ -47,5 +47,14 @@ class Convertors {
     fun fromDate(date: Date): Long {
         return date.time
     }
+    @TypeConverter
+    fun fromByteArray(bytes: ByteArray?): String? {
+        return bytes?.let { String(it) }
+    }
+
+    @TypeConverter
+    fun toByteArray(value: String?): ByteArray? {
+        return value?.toByteArray()
+    }
 
 }

@@ -8,13 +8,13 @@ import ma.ensas.mini_projet.R
 import ma.ensas.mini_projet.data.entities.Product
 import ma.ensas.mini_projet.databinding.ItemProductBinding
 
-class ProductAdapter(private val productList:List<Product>,
+class ProductAdapter(private var productList:List<Product>,
                      private val onClick: (Product) -> Unit):RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
     inner class ProductViewHolder(private val binding: ItemProductBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(product: Product) {
-            binding.name.text = product.name
+            binding.name.text =  "${product.productId}"
             binding.price.text = "${product.price} MAD"
             binding.type.text = product.type.toString()
             binding.stock.text = product.stock.toString()
@@ -28,6 +28,10 @@ class ProductAdapter(private val productList:List<Product>,
             }
             binding.root.setOnClickListener { onClick(product) }
         }
+    }
+    fun updateProducts(newProducts: List<Product>) {
+        productList = newProducts
+        notifyDataSetChanged()
     }
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
             val binding = ItemProductBinding.inflate(

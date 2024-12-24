@@ -13,7 +13,7 @@ import ma.ensas.mini_projet.data.entities.Product
 interface ProductDao {
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    suspend fun insertProduct(prod: Product)
+    suspend fun insertProduct(prod: Product): Long
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertProducts(products: List<Product>)
@@ -23,8 +23,12 @@ interface ProductDao {
 
     @Transaction
     @Query("SELECT * FROM products")
-    fun getProducts() : Flow<List<Product>>
-
+    suspend fun getAllProducts(): List<Product>
+    // Méthode pour supprimer tous les produits
+    @Query("DELETE FROM products")
+    suspend fun deleteAllProducts()
+    @Query("SELECT * FROM products WHERE productId = :productId LIMIT 1")
+    suspend fun getProductById(productId: Int): Product?
 //    @Query("SELECT * FROM products")
 //    fun getAllProductsWithUsers() : Flow<List<ProductWithUsers>>
 
