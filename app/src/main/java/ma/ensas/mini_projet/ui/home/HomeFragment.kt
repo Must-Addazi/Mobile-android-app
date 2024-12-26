@@ -3,8 +3,13 @@ package ma.ensas.mini_projet.ui.home
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -25,31 +30,60 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-       Log.i("mustapha","l'application en création1")
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         val productDao = MediMarketDatabase.getDatabase(requireContext()).productDao()
         val factory = HomeViewModelFactory(productDao)
-        homeViewModel = ViewModelProvider(this, factory).get(HomeViewModel::class.java)
+        homeViewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java]
 
         setupRecyclerView()
 
-        observeProducts()
-        Log.i("mustapha","l'application en création2")
+        homeViewModel.products.observe(viewLifecycleOwner) { products ->
+            productAdapter.updateProducts(products)
+        }
+
+        homeViewModel.filteredProducts.observe(viewLifecycleOwner) { products ->
+            productAdapter.updateProducts(products)
+        }
+
+        setupMenu()
 
         return binding.root
     }
 
+    private fun setupMenu() {
+        requireActivity().addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.main, menu)
+                val searchView = menu.findItem(R.id.app_bar_search).actionView as SearchView
+
+                searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        query?.let { homeViewModel.searchProducts(it) }
+                        return true
+                    }
+
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        newText?.let { homeViewModel.searchProducts(it) }
+                        return true
+                    }
+                })
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                TODO("Not yet implemented")
+            }
+
+        }, viewLifecycleOwner)
+    }
+
+
     private fun setupRecyclerView() {
         productAdapter = ProductAdapter(emptyList()) { product ->
             android.os.Handler().postDelayed({
-                Log.i("mustapha", "authenticated")
-
-
                 val bundle = Bundle().apply {
                     putInt("product_id", product.productId)
                 }
-
                 findNavController().navigate(R.id.action_homeFragment_to_detailsFragment2, bundle)
             }, 1000)
         }
@@ -60,16 +94,9 @@ class HomeFragment : Fragment() {
         }
     }
 
-
-
-    private fun observeProducts() {
-        homeViewModel.products.observe(viewLifecycleOwner) { products ->
-            productAdapter.updateProducts(products)
-        }
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
 }
