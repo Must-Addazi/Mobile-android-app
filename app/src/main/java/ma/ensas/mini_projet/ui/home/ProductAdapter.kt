@@ -8,6 +8,7 @@ import ma.ensas.mini_projet.R
 import ma.ensas.mini_projet.data.entities.Product
 import ma.ensas.mini_projet.databinding.ItemProductBinding
 
+
 class ProductAdapter(private var productList:List<Product>,
                      private val onClick: (Product) -> Unit):RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
     inner class ProductViewHolder(private val binding: ItemProductBinding) :

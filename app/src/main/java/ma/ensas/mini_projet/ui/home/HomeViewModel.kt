@@ -1,12 +1,15 @@
 package ma.ensas.mini_projet.ui.home
 
+import android.app.Application
+import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ma.ensas.mini_projet.data.dao.ProductDao
+import ma.ensas.mini_projet.data.database.MediMarketDatabase
 import ma.ensas.mini_projet.data.entities.Product
 import ma.ensas.mini_projet.utils.enumerations.ProductTypes
 import java.text.SimpleDateFormat
@@ -20,13 +23,17 @@ class HomeViewModel(private val productDao: ProductDao) : ViewModel() {
     private val _filteredProducts = MutableLiveData<List<Product>>()
     val products: LiveData<List<Product>> get() = _products
     val filteredProducts: LiveData<List<Product>> get() = _filteredProducts
+class HomeViewModel(app: Application) : AndroidViewModel(app) {
+    private val productDao: ProductDao = MediMarketDatabase.getDatabase(app).productDao()
+        private val _products = MutableLiveData<List<Product>>()
+        val products: LiveData<List<Product>> get() = _products
 
-    init {
-        deleteAllProducts()
-        insertRandomProducts()
-        loadProductsFromDatabase()
-    }
-
+        init {
+            Log.i("mustapha","insertion de produits")
+         //   deleteAllProducts()
+          //  insertRandomProducts()
+            loadProductsFromDatabase()
+        }
     private fun loadProductsFromDatabase() {
         viewModelScope.launch(Dispatchers.IO) {
             val productsList = productDao.getAllProducts()
@@ -37,10 +44,8 @@ class HomeViewModel(private val productDao: ProductDao) : ViewModel() {
 
     fun deleteAllProducts() {
         viewModelScope.launch(Dispatchers.IO) {
-            // Appeler la méthode pour supprimer tous les produits
             productDao.deleteAllProducts()
 
-            // Après la suppression, mettre à jour la LiveData avec une liste vide
             _products.postValue(emptyList())
         }
     }
@@ -48,14 +53,13 @@ class HomeViewModel(private val productDao: ProductDao) : ViewModel() {
     private fun insertRandomProducts() {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy")
 
-        // Date d'expiration au format "DD/MM/YYYY" pour afficher la date actuelle
-        val expirationDateStr = dateFormat.format(Date()) // Utilise la date actuelle
+        val expirationDateStr = dateFormat.format(Date())
 
         viewModelScope.launch(Dispatchers.IO) {
             val productsList = mutableListOf<Product>()
             for (i in 1..10) {
                 val product = Product(
-                    productId = 0, // La valeur initiale est 0 car Room la générera automatiquement
+                    productId = 0,
                     name = "Produit $i",
                     description = "Description du produit $i",
                     detailedDescription = """
@@ -69,13 +73,11 @@ class HomeViewModel(private val productDao: ProductDao) : ViewModel() {
                     type = if (i % 2 == 0) ProductTypes.MEDICAMENT else ProductTypes.VITAMIN,
                     productImage = null
                 )
-                // Insérer le produit dans la base de données et récupérer l'ID généré
-                val insertedId: Long = productDao.insertProduct(product) // Renvoie un Long
-                // Convertir le Long en Int et mettre à jour l'objet Product
-                val productWithId = product.copy(productId = insertedId.toInt()) // Conversion explicite en Int
+
+                val insertedId: Long = productDao.insertProduct(product)
+                val productWithId = product.copy(productId = insertedId.toInt())
                 productsList.add(productWithId)
             }
-
             _products.postValue(productsList)
         }
 

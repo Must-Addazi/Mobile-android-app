@@ -32,9 +32,8 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
+        homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         val productDao = MediMarketDatabase.getDatabase(requireContext()).productDao()
-        val factory = HomeViewModelFactory(productDao)
-        homeViewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java]
 
         setupRecyclerView()
 
@@ -98,5 +97,4 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

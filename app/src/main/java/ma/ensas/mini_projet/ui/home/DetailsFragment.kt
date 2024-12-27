@@ -5,16 +5,25 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import ma.ensas.mini_projet.data.database.MediMarketDatabase
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import ma.ensas.mini_projet.databinding.FragmentDetailsBinding
+import ma.ensas.mini_projet.utils.SessionManager
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class DetailsFragment : Fragment() {
 
     private lateinit var detailsViewModel: DetailsViewModel
-    private var _binding: FragmentDetailsBinding? = null // Le binding pour le fragment
-    private val binding get() = _binding!! // Accéder au binding en toute sécurité
+    private lateinit var sessionManager: SessionManager
+    private var _binding: FragmentDetailsBinding? = null
+    private val binding get() = _binding!!
+
+    var productId:Int=-1
+    var stock:Int= -1
 
     companion object {
         fun newInstance() = DetailsFragment()
@@ -23,49 +32,58 @@ class DetailsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Initialiser le ViewModel
-        val productDao = MediMarketDatabase.getDatabase(requireContext()).productDao()
-        detailsViewModel = ViewModelProvider(this, DetailsViewModelFactory(productDao))
-            .get(DetailsViewModel::class.java)
+        detailsViewModel = ViewModelProvider(this)[DetailsViewModel::class.java]
 
-        // Récupérer l'ID du produit passé en argument
-        val productId = arguments?.getInt("product_id") ?: 0
+        productId = arguments?.getInt("product_id") ?: 0
         detailsViewModel.getProductById(productId)
+        sessionManager = SessionManager(requireContext())
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Initialisation du binding
+    ): View {
         _binding = FragmentDetailsBinding.inflate(inflater, container, false)
-        return binding.root // Retourner la racine du layout
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Observer pour écouter les changements de données dans le ViewModel
         detailsViewModel.product.observe(viewLifecycleOwner) { product ->
-            // Si le produit existe, mettre à jour l'UI avec ses informations
             product?.let {
-                // Exemple de mise à jour de la vue avec les données du produit
-                binding.type.text= it.type.toString()
-                binding.name.text = it.name
-                binding.expiredAt.text = it.expirationDate.toString()
+                val formattedDate = SimpleDateFormat("HH:mm:ss dd-MM-yyyy", Locale.getDefault()).format(product.expirationDate)
+                binding.type.text= product.type.toString()
+                binding.name.text = product.name
+                binding.expiredAt.text = formattedDate
                 binding.description.text= it.detailedDescription
                 binding.price.text = "${it.price} MAD"
                 binding.stock.text= "${it.stock} in stock"
-                // Vous pouvez ajouter plus de mises à jour d'UI ici
+                stock=it.stock
             } ?: run {
                 Log.i("DetailsFragment", "Produit non trouvé")
             }
         }
+        binding.reservebtn.setOnClickListener {
+            val loggedUser = sessionManager.getUserId()
+
+            lifecycleScope.launch {
+
+                val reservationId = detailsViewModel.saveReservation(
+                    userId =loggedUser ,productId = productId, stock = stock
+                )
+                    Toast.makeText(
+                        requireContext(),
+                        "Réservation insérée avec l'ID : $reservationId",
+                        Toast.LENGTH_SHORT
+                    ).show()
+            }
+        }
+
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        // Nettoyer le binding pour éviter les fuites de mémoire
         _binding = null
     }
 }
