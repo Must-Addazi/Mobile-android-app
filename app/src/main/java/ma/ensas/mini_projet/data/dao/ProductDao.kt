@@ -28,6 +28,8 @@ interface ProductDao {
     suspend fun deleteAllProducts()
     @Query("SELECT * FROM products WHERE productId = :productId LIMIT 1")
     suspend fun getProductById(productId: Int): Product?
+    @Query("SELECT name FROM products WHERE productId = :productId")
+    suspend fun getProductNameById(productId: Int): String
 //    @Query("SELECT * FROM products")
 //    fun getAllProductsWithUsers() : Flow<List<ProductWithUsers>>
 

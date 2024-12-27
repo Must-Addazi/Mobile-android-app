@@ -10,17 +10,22 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import ma.ensas.mini_projet.databinding.ActivityMainBinding
+import ma.ensas.mini_projet.viewModels.LoginViewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private lateinit var userViewModel: LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
+        userViewModel= ViewModelProvider(this)[LoginViewModel::class.java]
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -34,11 +39,33 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_login
+                R.id.nav_home, R.id.nav_reservation, R.id.nav_slideshow, R.id.nav_logout
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        navView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.nav_reservation -> {
+                    navController.navigate(R.id.fragment_reservation)
+                    drawerLayout.closeDrawer(GravityCompat.START) // Fermer le menu
+                    true
+                }
+                R.id.nav_home->{
+                    navController.navigate(R.id.homeFragment)
+                    drawerLayout.closeDrawer(GravityCompat.START) // Fermer le menu
+                    true
+                }
+                R.id.nav_logout->{
+                    userViewModel.logout()
+                    navController.navigate(R.id.loginFragment)
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                    true
+                }
+                else -> false
+            }
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

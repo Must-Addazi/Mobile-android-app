@@ -65,4 +65,9 @@
         android:name="ma.ensas.mini_projet.ui.home.DetailsFragment"
         android:label="fragment_details"
         tools:layout="@layout/fragment_details" />
+    <fragment
+        android:id="@+id/fragment_reservation"
+        android:name="ma.ensas.mini_projet.ui.reservation.ReservationFragment"
+        android:label="fragment_gallery"
+        tools:layout="@layout/fragment_reservation" />
 </navigation>

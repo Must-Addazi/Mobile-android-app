@@ -10,9 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import ma.ensas.mini_projet.R
-import ma.ensas.mini_projet.data.database.MediMarketDatabase
 import ma.ensas.mini_projet.databinding.FragmentHomeBinding
-
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
@@ -25,18 +23,13 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-       Log.i("mustapha","l'application en création1")
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        val productDao = MediMarketDatabase.getDatabase(requireContext()).productDao()
-        val factory = HomeViewModelFactory(productDao)
-        homeViewModel = ViewModelProvider(this, factory).get(HomeViewModel::class.java)
+        homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
         setupRecyclerView()
 
         observeProducts()
-        Log.i("mustapha","l'application en création2")
-
         return binding.root
     }
 
