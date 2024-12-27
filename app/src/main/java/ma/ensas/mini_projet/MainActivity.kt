@@ -1,6 +1,8 @@
 package ma.ensas.mini_projet
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -53,17 +55,23 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.nav_reservation -> {
                     navController.navigate(R.id.fragment_reservation)
-                    drawerLayout.closeDrawer(GravityCompat.START) // Fermer le menu
+                    drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }
                 R.id.nav_home->{
                     navController.navigate(R.id.homeFragment)
-                    drawerLayout.closeDrawer(GravityCompat.START) // Fermer le menu
+                    drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }
                 R.id.nav_logout->{
-                    userViewModel.logout()
-                    navController.navigate(R.id.loginFragment)
+                    try {
+                        userViewModel.logout()
+                        navController.navigate(R.id.welcomeFragment)
+                        restartApp()
+                    } catch (e: Exception) {
+                        Log.e("LogOut", "Error during logout: ${e.message}")
+                        Toast.makeText(this, "Error during logout: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
                     drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }
@@ -85,5 +93,12 @@ class MainActivity : AppCompatActivity() {
 
     fun showAppBar() {
         supportActionBar?.show()
+    }
+
+    fun restartApp() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
+        finish()
     }
 }

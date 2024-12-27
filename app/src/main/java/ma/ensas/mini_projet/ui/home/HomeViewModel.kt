@@ -17,36 +17,26 @@ import java.util.Date
 import java.util.Locale
 import kotlin.random.Random
 
-class HomeViewModel(private val productDao: ProductDao) : ViewModel() {
+class HomeViewModel(app: Application) : AndroidViewModel(app) {
 
     private val _products = MutableLiveData<List<Product>>()
     private val _filteredProducts = MutableLiveData<List<Product>>()
+
     val products: LiveData<List<Product>> get() = _products
     val filteredProducts: LiveData<List<Product>> get() = _filteredProducts
-class HomeViewModel(app: Application) : AndroidViewModel(app) {
-    private val productDao: ProductDao = MediMarketDatabase.getDatabase(app).productDao()
-        private val _products = MutableLiveData<List<Product>>()
-        val products: LiveData<List<Product>> get() = _products
 
-        init {
-            Log.i("mustapha","insertion de produits")
-         //   deleteAllProducts()
-          //  insertRandomProducts()
-            loadProductsFromDatabase()
-        }
+    private val productDao: ProductDao = MediMarketDatabase.getDatabase(app).productDao()
+
+    init {
+        loadProductsFromDatabase()
+    }
+
+
     private fun loadProductsFromDatabase() {
         viewModelScope.launch(Dispatchers.IO) {
             val productsList = productDao.getAllProducts()
             _products.postValue(productsList)
             _filteredProducts.postValue(productsList)
-        }
-    }
-
-    fun deleteAllProducts() {
-        viewModelScope.launch(Dispatchers.IO) {
-            productDao.deleteAllProducts()
-
-            _products.postValue(emptyList())
         }
     }
 
