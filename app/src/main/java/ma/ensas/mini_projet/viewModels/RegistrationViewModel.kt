@@ -7,11 +7,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ma.ensas.mini_projet.data.dao.UserDao
-import ma.ensas.mini_projet.data.database.DatabaseProvider
+import ma.ensas.mini_projet.data.database.MediMarketDatabase
 import ma.ensas.mini_projet.data.entities.User
 
 class RegistrationViewModel(app : Application) : AndroidViewModel(app) {
-    private val userDao: UserDao = DatabaseProvider.getDatabase(app).userDao()
+    private val userDao: UserDao = MediMarketDatabase.getDatabase(app).userDao()
 
     private val _registrationStatus = MutableLiveData<Boolean>()
     val registrationStatus: LiveData<Boolean> get() = _registrationStatus

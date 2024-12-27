@@ -1,6 +1,8 @@
 package ma.ensas.mini_projet.data.database
 
+import android.content.Context
 import androidx.room.Database
+import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import ma.ensas.mini_projet.data.dao.ProductDao
@@ -17,6 +19,22 @@ abstract class MediMarketDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
     abstract fun productDao(): ProductDao
-    abstract fun ReservationDao(): ReservationDao
+    abstract fun reservationDao(): ReservationDao
 
+    companion object {
+        @Volatile
+        private var INSTANCE: MediMarketDatabase? = null
+
+        fun getDatabase(context: Context): MediMarketDatabase {
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    MediMarketDatabase::class.java,
+                    "medi_market_database"
+                ).build()
+                INSTANCE = instance
+                instance
+            }
+        }
+    }
 }

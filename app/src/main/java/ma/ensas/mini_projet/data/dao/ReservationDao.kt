@@ -7,13 +7,14 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
+import ma.ensas.mini_projet.data.entities.Product
 import ma.ensas.mini_projet.data.entities.Reservation
 
 @Dao
 interface ReservationDao {
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    suspend fun insertReservation(reservation: Reservation)
+    suspend fun insertReservation(reservation: Reservation):Long
 
     @Delete
     suspend fun deleteReservationById(reservation: Reservation)

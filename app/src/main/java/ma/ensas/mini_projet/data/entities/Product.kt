@@ -2,7 +2,6 @@ package ma.ensas.mini_projet.data.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import ma.ensas.mini_projet.utils.enumerations.ProductTypes
 import java.util.Date
