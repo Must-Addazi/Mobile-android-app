@@ -45,6 +45,7 @@ class ReservationViewModel(app: Application) : AndroidViewModel(app) {
             reservedAt = reservation.reservedAt,
             status = reservation.status,
             userId = reservation.userId,
+            quantity = reservation.quantity,
             productName = productName
         )
     }

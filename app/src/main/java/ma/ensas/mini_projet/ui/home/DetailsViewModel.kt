@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.room.Transaction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -30,17 +31,43 @@ class DetailsViewModel(app: Application) : AndroidViewModel(app) {
                 _product.postValue(productById)
             }
         }
-        suspend fun saveReservation(userId:Int, productId: Int, stock:Int):Long{
-            val reservation = Reservation(
-                id = 0,
-                reservedAt = Date(),
-                status = if(stock > 0) ReservationStatus.CONFIRMED else ReservationStatus.PENDING,
-                userId = userId,
-                productId = productId
-            )
-            productDao.decreaseStock(productId)
-            return withContext(Dispatchers.IO) {
-                reservationDao.insertReservation(reservation)
+    @Transaction
+    suspend fun saveReservation(userId: Int, productId: Int, stock: Int): Long {
+        return withContext(Dispatchers.IO) {
+            try {
+                val upProduct = productDao.decreaseStock(productId)
+                val existingReservation = reservationDao.getReservationsByProductId(productId)
+                if (existingReservation != null) {
+                    val product= productDao.getProductById(productId)
+                    if (product != null) {
+                        if(product.stock<0) {
+                            reservationDao.updateQuantity(existingReservation.id,ReservationStatus.PENDING, Date())
+                        }else{
+                            reservationDao.updateQuantity(existingReservation.id,ReservationStatus.CONFIRMED, Date())
+                        }
+                    }
+                    existingReservation.id.toLong()
+                } else {
+                    val reservation = Reservation(
+                        id = 0,
+                        reservedAt = Date(),
+                        status = if (stock > 0) ReservationStatus.CONFIRMED else ReservationStatus.PENDING,
+                        userId = userId,
+                        productId = productId,
+                        quantity = 1
+                    )
+                    val reservationId = reservationDao.insertReservation(reservation)
+                    val updatedProduct = productDao.getProductById(productId)
+                    _product.postValue(updatedProduct)
+                    reservationId
+                }
+            } catch (e: Exception) {
+                Log.e("mustapha", "Error during reservation saving: ${e.message}")
+                -1L
             }
         }
+
     }
+
+}
+

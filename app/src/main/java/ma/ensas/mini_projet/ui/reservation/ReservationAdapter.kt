@@ -17,6 +17,7 @@ class ReservationAdapter(private var reservationList:List<ReservationDTO>,
                 val formattedDate = SimpleDateFormat("HH:mm:ss dd-MM-yyyy", Locale.getDefault()).format(reservation.reservedAt)
                 binding.name.text = reservation.productName
                 binding.status.text = reservation.status.toString()
+                binding.quantity.text= "Quantity: ${reservation.quantity}"
                 binding.reservedAt.text=formattedDate
 
                 binding.root.setOnClickListener { onClick(reservation) }

@@ -24,7 +24,8 @@ interface UserDao {
 
     @Query("SELECT * FROM users WHERE username = :username AND password = :password")
     suspend fun login(username: String, password: String): User?
-
+    @Query("SELECT * FROM users WHERE userId=:id")
+     fun getUserById(id:Int): User?
 //    @Transaction
 //    @Query("SELECT * FROM users")
 //    fun getAllUsersWithProducts() : Flow<List<UserWithProducts>>

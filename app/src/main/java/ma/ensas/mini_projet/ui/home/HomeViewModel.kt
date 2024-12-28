@@ -27,9 +27,9 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
     val filteredProducts: LiveData<List<Product>> get() = _filteredProducts
 
     init {
-    //   deleteAllReservations()
+    //  deleteAllReservations()
     //   deleteAllProducts()
-     // insertRandomProducts()
+     //insertRandomProducts()
         loadProductsFromDatabase()
     }
 
@@ -71,7 +71,7 @@ reservationDao.deleteAllReservations()
                         Chaque unité est soi
                         """.trimIndent(),
                     price = String.format(Locale.US, "%.3f", Random.nextDouble(10.0, 200.0)).toDouble(),
-                    stock = Random.nextInt(1, 100),
+                    stock = Random.nextInt(1, 10),
                     expirationDate = dateFormat.parse(expirationDateStr) ?: Date(),
                     type = if (i % 2 == 0) ProductTypes.MEDICAMENT else ProductTypes.VITAMIN,
                     productImage = null

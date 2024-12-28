@@ -52,13 +52,17 @@ class DetailsFragment : Fragment() {
 
         detailsViewModel.product.observe(viewLifecycleOwner) { product ->
             product?.let {
-                val formattedDate = SimpleDateFormat("HH:mm:ss dd-MM-yyyy", Locale.getDefault()).format(product.expirationDate)
+                val formattedDate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(product.expirationDate)
                 binding.type.text= product.type.toString()
                 binding.name.text = product.name
                 binding.expiredAt.text = formattedDate
                 binding.description.text= it.detailedDescription
                 binding.price.text = "${it.price} MAD"
+                if(it.stock>0)
                 binding.stock.text= "${it.stock} in stock"
+                else
+                    binding.stock.text= "out of stock"
+
                 stock=it.stock
             } ?: run {
                 Log.i("DetailsFragment", "Produit non trouvé")
@@ -72,6 +76,7 @@ class DetailsFragment : Fragment() {
                 val reservationId = detailsViewModel.saveReservation(
                     userId =loggedUser ,productId = productId, stock = stock
                 )
+
                     Toast.makeText(
                         requireContext(),
                         "Réservation insérée avec l'ID : $reservationId",
