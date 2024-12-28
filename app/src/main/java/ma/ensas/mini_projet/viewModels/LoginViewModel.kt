@@ -28,8 +28,6 @@ class LoginViewModel(app: Application) : AndroidViewModel(app) {
                 if (user != null) {
                     _loggedInUser.postValue(user)
                     _loginStatus.postValue(true)
-                    sessionManager.saveUsername(username)
-                    Log.i("mustapha","user is ${user.userId}")
                     sessionManager.saveUserId(user.userId)
                 } else {
                     _loginStatus.postValue(false)

@@ -1,7 +1,6 @@
-package ma.ensas.mini_projet.ui.home
+package ma.ensas.mini_projet.viewModels
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,10 +14,7 @@ import ma.ensas.mini_projet.data.database.MediMarketDatabase
 import ma.ensas.mini_projet.data.entities.Product
 import ma.ensas.mini_projet.data.entities.Reservation
 import ma.ensas.mini_projet.utils.enumerations.ReservationStatus
-import java.lang.reflect.Array.get
-import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
 
 class DetailsViewModel(app: Application) : AndroidViewModel(app) {
     private val productDao: ProductDao = MediMarketDatabase.getDatabase(app).productDao()

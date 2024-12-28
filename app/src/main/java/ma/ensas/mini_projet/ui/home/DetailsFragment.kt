@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import ma.ensas.mini_projet.databinding.FragmentDetailsBinding
 import ma.ensas.mini_projet.utils.SessionManager
+import ma.ensas.mini_projet.viewModels.DetailsViewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
