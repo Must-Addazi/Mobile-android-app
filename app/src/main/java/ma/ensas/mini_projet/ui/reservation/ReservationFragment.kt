@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import ma.ensas.mini_projet.databinding.FragmentReservationBinding
+import ma.ensas.mini_projet.viewModels.ReservationViewModel
 
 class ReservationFragment : Fragment() {
 
@@ -20,7 +21,7 @@ class ReservationFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var reservationAdapter:ReservationAdapter
-    private lateinit var reservationViewModel:ReservationViewModel
+    private lateinit var reservationViewModel: ReservationViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,

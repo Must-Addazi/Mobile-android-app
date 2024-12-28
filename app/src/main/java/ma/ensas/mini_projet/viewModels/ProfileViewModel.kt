@@ -21,19 +21,13 @@ class ProfileViewModel(app: Application) : AndroidViewModel(app) {
 
     fun getUserDetails() {
         viewModelScope.launch {
-            val email = sessionManager.getUsername()
-            if (email == null) {
+            val userId = sessionManager.getUserId()
+            try {
+                val user = userDao.getUserById(userId)
+                _userDetails.postValue(user)
+            } catch (ex: RuntimeException) {
+                Log.e("loadUserDetails", "Failed To Load User Details")
                 _userDetails.postValue(null)
-                Log.e("ProfileViewModel", "User is not authenticated")
-            }
-            else {
-                try {
-                    val user = userDao.getUserByEmail(email)
-                    _userDetails.postValue(user)
-                } catch (ex: RuntimeException) {
-                    Log.e("loadUserDetails", "Failed To Load User Details")
-                    _userDetails.postValue(null)
-                }
             }
         }
     }

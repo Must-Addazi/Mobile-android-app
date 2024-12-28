@@ -1,7 +1,6 @@
 package ma.ensas.mini_projet.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -17,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import ma.ensas.mini_projet.R
 import ma.ensas.mini_projet.data.database.MediMarketDatabase
 import ma.ensas.mini_projet.databinding.FragmentHomeBinding
+import ma.ensas.mini_projet.viewModels.HomeViewModel
 
 class HomeFragment : Fragment() {
 

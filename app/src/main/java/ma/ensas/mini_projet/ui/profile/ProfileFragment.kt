@@ -48,11 +48,12 @@ class ProfileFragment : Fragment() {
                 binding.usernameEditText.setText(userDetails.username)
                 binding.birthDateEditText.setText(userDetails.birthDate.toString())
                 binding.phoneNumberEditText.setText(userDetails.phoneNumber)
+
             } else {
                 binding.errorMsg.text = "User details not found."
             }
         }
-        // viewModel.getUserDetails()
+        viewModel.getUserDetails()
     }
 
     private fun applyChanges() {
@@ -78,8 +79,8 @@ class ProfileFragment : Fragment() {
                 )
             }
             catch (ex: Exception) {
-                binding.errorMsg.text = "Failed To Save User Changes"
-                Log.e("profileSaveChanges", "Failed To Save User Changes")
+                binding.errorMsg.text = "Failed To Save Changes"
+                Log.e("profileSaveChanges", "Failed To Save User: ${ex.message}")
             }
         }
     }

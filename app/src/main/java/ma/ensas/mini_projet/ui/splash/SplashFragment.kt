@@ -1,7 +1,6 @@
 package ma.ensas.mini_projet.ui.splash
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import ma.ensas.mini_projet.MainActivity
 import ma.ensas.mini_projet.R
 import ma.ensas.mini_projet.databinding.FragmentSplashBinding
-import ma.ensas.mini_projet.utils.SessionManager
 import ma.ensas.mini_projet.viewModels.SplashViewModel
 
 class SplashFragment : Fragment() {
@@ -52,13 +50,11 @@ class SplashFragment : Fragment() {
         splashViewModel.userAlreadyLoggedIn.observe(viewLifecycleOwner, Observer { userAuthenticated ->
             if(userAuthenticated) {
                 android.os.Handler().postDelayed({
-                    Log.i("mustapha","authenticated")
                     findNavController().navigate(R.id.action_splashFragment_to_homeFragment2)
                 }, 1000)
             }
             else {
                 android.os.Handler().postDelayed({
-                    Log.i("mustapha"," not authenticated!!!!!!!!!!!!")
                     findNavController().navigate(R.id.action_splashFragment_to_welcomeFragment)
                 }, 3000)
             }

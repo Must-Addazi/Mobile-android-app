@@ -1,19 +1,15 @@
-package ma.ensas.mini_projet.ui.reservation
+package ma.ensas.mini_projet.viewModels
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ma.ensas.mini_projet.data.DTOS.ReservationDTO
 import ma.ensas.mini_projet.data.dao.ProductDao
 import ma.ensas.mini_projet.data.dao.ReservationDao
 import ma.ensas.mini_projet.data.database.MediMarketDatabase
-import ma.ensas.mini_projet.data.entities.Product
 import ma.ensas.mini_projet.data.entities.Reservation
 
 class ReservationViewModel(app: Application) : AndroidViewModel(app) {
