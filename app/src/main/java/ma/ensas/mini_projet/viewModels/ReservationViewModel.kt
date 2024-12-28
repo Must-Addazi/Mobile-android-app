@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import ma.ensas.mini_projet.data.DTOS.ReservationDTO
+import ma.ensas.mini_projet.data.dto.ReservationDTO
 import ma.ensas.mini_projet.data.dao.ProductDao
 import ma.ensas.mini_projet.data.dao.ReservationDao
 import ma.ensas.mini_projet.data.database.MediMarketDatabase
@@ -21,9 +21,10 @@ class ReservationViewModel(app: Application) : AndroidViewModel(app) {
     val reservationDTOs: LiveData<List<ReservationDTO>> get() = _reservationDTOs
 
     init {
-        loadReservationsFromDatabase()
+        loadReservations()
     }
-    private fun loadReservationsFromDatabase() {
+
+    private fun loadReservations() {
         viewModelScope.launch {
             reservationDao.getAllReservations().collect { reservations ->
                 val reservationDTOList = reservations.map { reservation ->

@@ -70,6 +70,9 @@ dependencies {
 
     // Card View
     implementation(libs.androidx.cardview)
+
+    // dynamic color changing
+    implementation(libs.androidx.core.ktx.v1120)
 }
 java {
     toolchain {

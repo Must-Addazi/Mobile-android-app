@@ -14,7 +14,6 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
 import ma.ensas.mini_projet.databinding.ActivityMainBinding
 import ma.ensas.mini_projet.viewModels.HeaderViewModel

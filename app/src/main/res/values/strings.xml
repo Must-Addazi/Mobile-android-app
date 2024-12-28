@@ -16,4 +16,18 @@
     <string name="welcome_img_desc">Welcome Logo</string>
     <string name="welcome_title">Welcome!</string>
     <string name="welcome_back_title">Welcome Back!</string>
+    <string name="welcome_to_your_profile">Welcome to your profile</string>
+    <string name="role">Role:</string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="enter_your_phone_number">Enter your phone number</string>
+    <string name="birth_date_yyyy_mm_dd">Birth Date (yyyy-MM-dd)</string>
+    <string name="enter_your_birth_date">Enter your birth date</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="save">Save</string>
+    <string name="enter_your_username">Enter your username</string>
+    <string name="enter_your_email">Enter your email</string>
+    <string name="enter_your_password">Enter your password</string>
 </resources>
