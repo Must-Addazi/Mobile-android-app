@@ -11,14 +11,10 @@
         <item
             android:id="@+id/nav_reservation"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_reservation" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:title="Reservations" />
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_menu_gallery"
             android:title="Logout" />
     </group>
 </menu>

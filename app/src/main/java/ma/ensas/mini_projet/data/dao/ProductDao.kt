@@ -30,6 +30,9 @@ interface ProductDao {
     suspend fun getProductById(productId: Int): Product?
     @Query("SELECT name FROM products WHERE productId = :productId")
     suspend fun getProductNameById(productId: Int): String
+
+    @Query("UPDATE products SET stock = stock - 1 WHERE productId = :productId")
+    suspend fun decreaseStock(productId: Int)
 //    @Query("SELECT * FROM products")
 //    fun getAllProductsWithUsers() : Flow<List<ProductWithUsers>>
 

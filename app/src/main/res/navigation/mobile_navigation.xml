@@ -59,6 +59,9 @@
         <action
             android:id="@+id/action_homeFragment_to_detailsFragment2"
             app:destination="@id/detailsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_welcomeFragment"
+            app:destination="@id/welcomeFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"

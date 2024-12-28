@@ -15,10 +15,7 @@ import ma.ensas.mini_projet.data.database.MediMarketDatabase
 import ma.ensas.mini_projet.data.entities.Product
 import ma.ensas.mini_projet.data.entities.Reservation
 import ma.ensas.mini_projet.utils.enumerations.ReservationStatus
-import java.lang.reflect.Array.get
-import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
 
 class DetailsViewModel(app: Application) : AndroidViewModel(app) {
     private val productDao: ProductDao = MediMarketDatabase.getDatabase(app).productDao()
@@ -41,6 +38,7 @@ class DetailsViewModel(app: Application) : AndroidViewModel(app) {
                 userId = userId,
                 productId = productId
             )
+            productDao.decreaseStock(productId)
             return withContext(Dispatchers.IO) {
                 reservationDao.insertReservation(reservation)
             }
