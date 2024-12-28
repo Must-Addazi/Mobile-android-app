@@ -1,7 +1,6 @@
-package ma.ensas.mini_projet.ui.home
+package ma.ensas.mini_projet.viewModels
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

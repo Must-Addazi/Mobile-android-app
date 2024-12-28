@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 import ma.ensas.mini_projet.data.entities.User
 
@@ -24,18 +25,14 @@ interface UserDao {
 
     @Query("SELECT * FROM users WHERE username = :username AND password = :password")
     suspend fun login(username: String, password: String): User?
-    @Query("SELECT * FROM users WHERE userId=:id")
-     fun getUserById(id:Int): User?
-//    @Transaction
-//    @Query("SELECT * FROM users")
-//    fun getAllUsersWithProducts() : Flow<List<UserWithProducts>>
-//
-//    @Transaction
-//    @Query("SELECT * FROM users WHERE id = :userId")
-//    suspend fun getUserById(userId: Int) : UserWithProducts
-//
-//    @Transaction
-//    @Query("SELECT * FROM users WHERE email = :userEmail")
-//    suspend fun getUserByEmail(userEmail: String) : UserWithProducts
+
+    @Query("SELECT * FROM users WHERE email = :email")
+    suspend fun getUserByEmail(email: String): User?
+
+    @Update
+    suspend fun updateUser(user: User)
+
+    @Query("SELECT * FROM users WHERE userId = :userId")
+    suspend fun getUserById(userId: Int): User?
 
 }

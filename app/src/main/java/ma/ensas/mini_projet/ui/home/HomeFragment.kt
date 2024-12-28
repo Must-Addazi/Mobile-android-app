@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import ma.ensas.mini_projet.R
 import ma.ensas.mini_projet.data.database.MediMarketDatabase
 import ma.ensas.mini_projet.databinding.FragmentHomeBinding
+import ma.ensas.mini_projet.viewModels.HomeViewModel
 
 class HomeFragment : Fragment() {
 
@@ -31,6 +32,8 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
+        homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+        val productDao = MediMarketDatabase.getDatabase(requireContext()).productDao()
         setupRecyclerView()
             homeViewModel= ViewModelProvider(this)[HomeViewModel::class.java]
         homeViewModel.products.observe(viewLifecycleOwner) { products ->
@@ -40,6 +43,16 @@ class HomeFragment : Fragment() {
         homeViewModel.filteredProducts.observe(viewLifecycleOwner) { products ->
             productAdapter.updateProducts(products)
         }
+
+        homeViewModel.products.observe(viewLifecycleOwner) { products ->
+            productAdapter.updateProducts(products)
+        }
+
+        homeViewModel.filteredProducts.observe(viewLifecycleOwner) { products ->
+            productAdapter.updateProducts(products)
+        }
+
+        setupMenu()
 
         setupMenu()
 

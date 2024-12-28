@@ -1,4 +1,4 @@
-package ma.ensas.mini_projet.ui.home
+package ma.ensas.mini_projet.viewModels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -19,6 +19,14 @@ import java.util.Locale
 import kotlin.random.Random
 
 class HomeViewModel(app: Application) : AndroidViewModel(app) {
+
+    private val _products = MutableLiveData<List<Product>>()
+    private val _filteredProducts = MutableLiveData<List<Product>>()
+
+    val products: LiveData<List<Product>> get() = _products
+    val filteredProducts: LiveData<List<Product>> get() = _filteredProducts
+
+class HomeViewModel(app: Application) : AndroidViewModel(app) {
     private val productDao: ProductDao = MediMarketDatabase.getDatabase(app).productDao()
     private val reservationDao:ReservationDao = MediMarketDatabase.getDatabase(app).reservationDao()
     private val _products = MutableLiveData<List<Product>>()
@@ -30,6 +38,10 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
     //  deleteAllReservations()
     //   deleteAllProducts()
      //insertRandomProducts()
+        loadProductsFromDatabase()
+    }
+
+    init {
         loadProductsFromDatabase()
     }
 
@@ -71,11 +83,12 @@ reservationDao.deleteAllReservations()
                         Chaque unité est soi
                         """.trimIndent(),
                     price = String.format(Locale.US, "%.3f", Random.nextDouble(10.0, 200.0)).toDouble(),
-                    stock = Random.nextInt(1, 10),
+                    stock = Random.nextInt(1, 100),
                     expirationDate = dateFormat.parse(expirationDateStr) ?: Date(),
                     type = if (i % 2 == 0) ProductTypes.MEDICAMENT else ProductTypes.VITAMIN,
                     productImage = null
                 )
+
                 val insertedId: Long = productDao.insertProduct(product)
                 val productWithId = product.copy(productId = insertedId.toInt())
                 productsList.add(productWithId)
@@ -100,5 +113,7 @@ reservationDao.deleteAllReservations()
     }
 
 
+=========
+>>>>>>>>> Temporary merge branch 2
 }
 

@@ -17,7 +17,7 @@ class SplashViewModel(app: Application) : AndroidViewModel(app) {
 
     fun isAlreadyAuthenticated() {
         viewModelScope.launch {
-            if(sessionManager.getUsername() != null) {
+            if(sessionManager.getUserId() != -1) {
                 _userAlreadyLoggedIn.postValue(true)
             }
             else {
