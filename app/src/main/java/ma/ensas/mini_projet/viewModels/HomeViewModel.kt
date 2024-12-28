@@ -19,18 +19,11 @@ import java.util.Locale
 import kotlin.random.Random
 
 class HomeViewModel(app: Application) : AndroidViewModel(app) {
-
-    private val _products = MutableLiveData<List<Product>>()
-    private val _filteredProducts = MutableLiveData<List<Product>>()
-
-    val products: LiveData<List<Product>> get() = _products
-    val filteredProducts: LiveData<List<Product>> get() = _filteredProducts
-
-class HomeViewModel(app: Application) : AndroidViewModel(app) {
     private val productDao: ProductDao = MediMarketDatabase.getDatabase(app).productDao()
     private val reservationDao:ReservationDao = MediMarketDatabase.getDatabase(app).reservationDao()
     private val _products = MutableLiveData<List<Product>>()
     private val _filteredProducts = MutableLiveData<List<Product>>()
+
     val products: LiveData<List<Product>> get() = _products
     val filteredProducts: LiveData<List<Product>> get() = _filteredProducts
 
@@ -41,9 +34,6 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
         loadProductsFromDatabase()
     }
 
-    init {
-        loadProductsFromDatabase()
-    }
 
     private fun loadProductsFromDatabase() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -112,8 +102,5 @@ reservationDao.deleteAllReservations()
         }
     }
 
-
-=========
->>>>>>>>> Temporary merge branch 2
 }
 

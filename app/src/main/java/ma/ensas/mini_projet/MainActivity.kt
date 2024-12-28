@@ -6,7 +6,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import android.util.Log
-import android.widget.Toast
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -50,9 +49,7 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_home,
-                R.id.nav_logout, R.id.nav_home, R.id.nav_reservation, R.id.nav_logout
-                R.id.nav_home, R.id.nav_reservation, R.id.nav_profile, R.id.nav_logout
-            ), drawerLayout
+                R.id.nav_logout, R.id.nav_reservation ,R.id.nav_profile
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)

@@ -33,7 +33,6 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
-        val productDao = MediMarketDatabase.getDatabase(requireContext()).productDao()
         setupRecyclerView()
             homeViewModel= ViewModelProvider(this)[HomeViewModel::class.java]
         homeViewModel.products.observe(viewLifecycleOwner) { products ->
@@ -44,18 +43,7 @@ class HomeFragment : Fragment() {
             productAdapter.updateProducts(products)
         }
 
-        homeViewModel.products.observe(viewLifecycleOwner) { products ->
-            productAdapter.updateProducts(products)
-        }
-
-        homeViewModel.filteredProducts.observe(viewLifecycleOwner) { products ->
-            productAdapter.updateProducts(products)
-        }
-
         setupMenu()
-
-        setupMenu()
-
         return binding.root
     }
 
