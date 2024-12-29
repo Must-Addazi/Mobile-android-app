@@ -16,7 +16,7 @@ class RegistrationViewModel(app : Application) : AndroidViewModel(app) {
     private val _registrationStatus = MutableLiveData<Boolean>()
     val registrationStatus: LiveData<Boolean> get() = _registrationStatus
 
-    fun registerUser(username: String, email: String, password: String, confirmPassword: String) {
+    fun registerUser(username: String, email: String, password: String) {
         viewModelScope.launch {
             val user = User(
                 username, email, password,
