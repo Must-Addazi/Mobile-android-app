@@ -18,6 +18,6 @@ data class Product(
     val expirationDate: Date,
     val type: ProductTypes,
 
-    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
-    val productImage: ByteArray?,
+//    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
+//    val productImage: ByteArray?,
 )

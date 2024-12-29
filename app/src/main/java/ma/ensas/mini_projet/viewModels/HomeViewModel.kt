@@ -1,6 +1,8 @@
 package ma.ensas.mini_projet.viewModels
 
 import android.app.Application
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -27,14 +29,20 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
     private val productDao: ProductDao = MediMarketDatabase.getDatabase(app).productDao()
 
     init {
+        insertRandomProducts()
         loadProductsFromDatabase()
     }
 
     private fun loadProductsFromDatabase() {
         viewModelScope.launch(Dispatchers.IO) {
-            val productsList = productDao.getAllProducts()
-            _products.postValue(productsList)
-            _filteredProducts.postValue(productsList)
+            try {
+                val productsList = productDao.getAllProducts()
+                _products.postValue(productsList)
+                _filteredProducts.postValue(productsList)
+            }
+            catch (ex: Exception) {
+                Log.i("LoadProducts", "Failed to load products ${ex.message}")
+            }
         }
     }
 
@@ -59,7 +67,7 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
                     stock = Random.nextInt(1, 100),
                     expirationDate = dateFormat.parse(expirationDateStr) ?: Date(),
                     type = if (i % 2 == 0) ProductTypes.MEDICAMENT else ProductTypes.VITAMIN,
-                    productImage = null
+                    //productImage = null
                 )
 
                 val insertedId: Long = productDao.insertProduct(product)

@@ -33,7 +33,6 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
-        val productDao = MediMarketDatabase.getDatabase(requireContext()).productDao()
 
         setupRecyclerView()
 

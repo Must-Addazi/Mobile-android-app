@@ -18,13 +18,13 @@ class ProductAdapter(private var productList:List<Product>,
             binding.name.text =  "${product.productId}"
             binding.price.text = "${product.price} MAD"
             binding.type.text = product.type.toString()
-            binding.description.text=product.description
-            product.productImage?.let { byteArray ->
-                val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-                binding.productImage.setImageBitmap(bitmap)
-            } ?: run {
-                binding.productImage.setImageResource(R.drawable.logo)
-            }
+            binding.description.text = product.description
+//            product.productImage?.let { byteArray ->
+//                val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+//                binding.productImage.setImageBitmap(bitmap)
+//            } ?: run {
+//                binding.productImage.setImageResource(R.drawable.logo)
+//            }
             binding.root.setOnClickListener { onClick(product) }
         }
     }
