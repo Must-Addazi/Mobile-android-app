@@ -1,8 +1,8 @@
 package ma.ensas.mini_projet.data.entities
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import ma.ensas.mini_projet.R
 import ma.ensas.mini_projet.utils.enumerations.ProductTypes
 import java.util.Date
 
@@ -17,7 +17,5 @@ data class Product(
     val stock: Int,
     val expirationDate: Date,
     val type: ProductTypes,
-
-//    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
-//    val productImage: ByteArray?,
+    val imageResId: Int = R.drawable.default_prod_img
 )

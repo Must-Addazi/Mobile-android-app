@@ -1,14 +1,15 @@
 package ma.ensas.mini_projet.viewModels
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import ma.ensas.mini_projet.R
 import ma.ensas.mini_projet.data.dao.ProductDao
 import ma.ensas.mini_projet.data.database.MediMarketDatabase
 import ma.ensas.mini_projet.data.entities.Product
@@ -29,8 +30,19 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
     private val productDao: ProductDao = MediMarketDatabase.getDatabase(app).productDao()
 
     init {
+        removeProducts()
         insertRandomProducts()
         loadProductsFromDatabase()
+    }
+
+    private fun removeProducts() {
+        viewModelScope.launch (Dispatchers.IO) {
+            try {
+                productDao.deleteAllProducts()
+            } catch (ex: Exception) {
+                Log.i("DeleteProducts", "Failed To Delete Products")
+            }
+        }
     }
 
     private fun loadProductsFromDatabase() {
@@ -41,11 +53,12 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
                 _filteredProducts.postValue(productsList)
             }
             catch (ex: Exception) {
-                Log.i("LoadProducts", "Failed to load products ${ex.message}")
+                Log.i("loadProducts", "Failed to load products ${ex.message}")
             }
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun insertRandomProducts() {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy")
 
@@ -67,7 +80,7 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
                     stock = Random.nextInt(1, 100),
                     expirationDate = dateFormat.parse(expirationDateStr) ?: Date(),
                     type = if (i % 2 == 0) ProductTypes.MEDICAMENT else ProductTypes.VITAMIN,
-                    //productImage = null
+                    imageResId = R.drawable.default_prod_img
                 )
 
                 val insertedId: Long = productDao.insertProduct(product)
@@ -86,7 +99,7 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
         } else {
             val filteredList =
                 currentProducts.filter {
-                    it.name.contains(query, ignoreCase = true) || it.description.contains(query, ignoreCase = true)
+                    it.name.contains(query, ignoreCase = true)
                 }
             _filteredProducts.postValue(filteredList)
         }
@@ -94,4 +107,3 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
 
 
 }
-

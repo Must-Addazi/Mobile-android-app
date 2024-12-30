@@ -79,6 +79,7 @@ class ProfileFragment : Fragment() {
                 binding.phoneNumberEditText.setText(userDetails.phoneNumber)
                 binding.passwordEditText.setText(userDetails.password)
                 binding.roleTextview.text = userDetails.role.name
+                binding.usernameTextview.text = userDetails.username
 
                 if(userDetails.birthDate != null) {
                     binding.birthDateEditText.setText(format.format(userDetails.birthDate))

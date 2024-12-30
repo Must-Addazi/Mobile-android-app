@@ -1,5 +1,6 @@
 package ma.ensas.mini_projet.ui.home
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -48,21 +49,23 @@ class DetailsFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         detailsViewModel.product.observe(viewLifecycleOwner) { product ->
             product?.let {
-                val formattedDate = SimpleDateFormat("HH:mm:ss dd-MM-yyyy", Locale.getDefault()).format(product.expirationDate)
+                val formattedDate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(product.expirationDate)
                 binding.type.text= product.type.toString()
                 binding.name.text = product.name
                 binding.expiredAt.text = formattedDate
-                binding.description.text= it.detailedDescription
+                binding.description.text = it.detailedDescription
                 binding.price.text = "${it.price} MAD"
-                binding.stock.text= "${it.stock} in stock"
-                stock=it.stock
+                binding.stock.text = "${it.stock} in stock"
+                stock = it.stock
+                binding.productImage.setImageResource(it.imageResId)
             } ?: run {
-                Log.i("DetailsFragment", "Produit non trouvé")
+                Log.i("DetailsFragment", "Product Not Found")
             }
         }
         binding.reservebtn.setOnClickListener {
@@ -70,14 +73,12 @@ class DetailsFragment : Fragment() {
 
             lifecycleScope.launch {
 
-                val reservationId = detailsViewModel.saveReservation(
-                    userId =loggedUser ,productId = productId, stock = stock
+                detailsViewModel.saveReservation(
+                    userId =loggedUser
+                    ,productId = productId,
+                    stock = stock
                 )
-                    Toast.makeText(
-                        requireContext(),
-                        "Réservation insérée avec l'ID : $reservationId",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(requireContext(), "Reservation Succeed", Toast.LENGTH_SHORT).show()
             }
         }
 
