@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import ma.ensas.mini_projet.R
 import ma.ensas.mini_projet.data.dao.UserDao
 import ma.ensas.mini_projet.data.database.MediMarketDatabase
 import ma.ensas.mini_projet.data.entities.User
@@ -22,7 +23,7 @@ class RegistrationViewModel(app : Application) : AndroidViewModel(app) {
                 username, email, password,
                 phoneNumber = null,
                 birthDate = null,
-                profileImage = null
+                imageUri = ""
             )
 
             userDao.insertUser(user)

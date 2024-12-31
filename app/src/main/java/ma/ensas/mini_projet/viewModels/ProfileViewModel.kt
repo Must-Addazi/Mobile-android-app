@@ -12,7 +12,6 @@ import ma.ensas.mini_projet.data.database.MediMarketDatabase
 import ma.ensas.mini_projet.data.entities.User
 import ma.ensas.mini_projet.utils.SessionManager
 
-
 class ProfileViewModel(app: Application) : AndroidViewModel(app) {
     private val userDao: UserDao = MediMarketDatabase.getDatabase(app).userDao()
     private val sessionManager: SessionManager = SessionManager(app)
@@ -27,7 +26,7 @@ class ProfileViewModel(app: Application) : AndroidViewModel(app) {
                 val user = userDao.getUserById(userId)
                 _userDetails.postValue(user)
             } catch (ex: RuntimeException) {
-                Log.e("loadUserDetails", "Failed To Load User Details")
+                Log.e("loadUserDetails", "Failed To Load User Details: ${ex.message}")
                 _userDetails.postValue(null)
             }
         }
@@ -44,4 +43,15 @@ class ProfileViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
+    fun updateUserImageUri(userId: Int, imageUri: String) {
+        viewModelScope.launch {
+            try {
+                userDao.updateUserImageUri(userId, imageUri)
+                val updatedUser = userDao.getUserById(userId)
+                _userDetails.postValue(updatedUser)
+            } catch (ex: Exception) {
+                Log.e("updateUserImageUri", "Failed to update image URI: ${ex.message}")
+            }
+        }
+    }
 }

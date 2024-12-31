@@ -15,6 +15,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.imageview.ShapeableImageView
 import ma.ensas.mini_projet.databinding.ActivityMainBinding
 import ma.ensas.mini_projet.viewModels.HeaderViewModel
 import ma.ensas.mini_projet.viewModels.LoginViewModel
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         val headerView = navView.getHeaderView(0)
         val nameTextView = headerView.findViewById<TextView>(R.id.nameTextView)
         val emailTextView = headerView.findViewById<TextView>(R.id.emailTextView)
+        val profileShapeableImage = headerView.findViewById<ShapeableImageView>(R.id.user_profile)
 
         loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
         headerViewModel = ViewModelProvider(this)[HeaderViewModel::class.java]
@@ -50,6 +52,11 @@ class MainActivity : AppCompatActivity() {
         headerViewModel.email.observe(this) { email ->
             emailTextView.text = email
         }
+//        headerViewModel.imageResId.observe(this) { imageResId ->
+//            imageResId?.let {
+//                profileShapeableImage.setImageResource(imageResId)
+//            }
+//        }
 
         headerViewModel.getHeaderDetails()
 

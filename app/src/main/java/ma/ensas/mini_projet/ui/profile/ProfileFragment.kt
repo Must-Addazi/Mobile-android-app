@@ -1,5 +1,8 @@
 package ma.ensas.mini_projet.ui.profile
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -18,6 +21,8 @@ import ma.ensas.mini_projet.utils.ImageConverter
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import ma.ensas.mini_projet.R
+import java.io.File
+import java.io.FileOutputStream
 import java.text.ParseException
 
 
@@ -27,29 +32,51 @@ class ProfileFragment : Fragment() {
     private lateinit var viewModel: ProfileViewModel
 
     private var currentUserId = -1
+
+    @SuppressLint("SimpleDateFormat")
     val format = SimpleDateFormat("yyyy-MM-dd")
 
     // Store selected image as a ByteArray
     private var selectedImageByteArray: ByteArray? = null
 
     // Activity Result Launcher for picking an image
+    @SuppressLint("SetTextI18n")
+//    private val pickImageLauncher = registerForActivityResult(
+//        ActivityResultContracts.GetContent()
+//    ) { uri: Uri? ->
+//        uri?.let {
+//            try {
+//                // Convert the selected image to Bitmap
+//                val bitmap = MediaStore.Images.Media.getBitmap(requireContext().contentResolver, it)
+//                // Convert Bitmap to ByteArray
+//                selectedImageByteArray = ImageConverter.bitmapToByteArray(bitmap)
+//
+//                binding.userProfile.setImageBitmap(bitmap)
+//            } catch (ex: Exception) {
+//                binding.errorMsg.text = "Failed to load image: ${ex.message}"
+//                Log.e("ProfileFragment", "Error loading image: ${ex.message}")
+//            }
+//        }
+//    }
+
     private val pickImageLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         uri?.let {
             try {
-                // Convert the selected image to Bitmap
                 val bitmap = MediaStore.Images.Media.getBitmap(requireContext().contentResolver, it)
-                // Convert Bitmap to ByteArray
-                selectedImageByteArray = ImageConverter.bitmapToByteArray(bitmap)
+                val imagePath = saveImageToInternalStorage(requireContext(), bitmap, currentUserId)
 
                 binding.userProfile.setImageBitmap(bitmap)
+                viewModel.updateUserImageUri(currentUserId, imagePath) // Save the path in the database
+
             } catch (ex: Exception) {
                 binding.errorMsg.text = "Failed to load image: ${ex.message}"
                 Log.e("ProfileFragment", "Error loading image: ${ex.message}")
             }
         }
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,11 +112,7 @@ class ProfileFragment : Fragment() {
                     binding.birthDateEditText.setText(format.format(userDetails.birthDate))
                 }
 
-                // Load profile image from ByteArray and display in ShapeableImageView
-                userDetails.profileImage?.let { byteArray ->
-                    val bitmap = ImageConverter.byteArrayToBitmap(byteArray)
-                    binding.userProfile.setImageBitmap(bitmap)
-                }
+                // binding.userProfile.setImageResource(userDetails.imageResId)
             } else {
                 binding.errorMsg.text = "User details not found."
             }
@@ -97,6 +120,7 @@ class ProfileFragment : Fragment() {
         viewModel.getUserDetails()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun applyChanges() {
         binding.uploadImageBtn.setOnClickListener {
             // Launch the image picker
@@ -118,7 +142,7 @@ class ProfileFragment : Fragment() {
                         password = password,
                         phoneNumber = phoneNumber,
                         birthDate = birthDate,
-                        profileImage = selectedImageByteArray,
+                        //imageResId = R.drawable.default_user_profile,
                         role = Roles.USER,
                         userId = currentUserId
                     )
@@ -140,4 +164,16 @@ class ProfileFragment : Fragment() {
             }
         }
     }
+
+    fun saveImageToInternalStorage(context: Context, bitmap: Bitmap, userId: Int): String {
+        val directory = File(context.filesDir, "userProfiles")
+        if (!directory.exists()) directory.mkdirs()
+
+        val file = File(directory, "user_${userId}.png")
+        FileOutputStream(file).use { out ->
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+        }
+        return file.absolutePath
+    }
+
 }

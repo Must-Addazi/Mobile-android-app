@@ -18,8 +18,11 @@ class HeaderViewModel(app: Application) : AndroidViewModel(app) {
 
     private val _username = MutableLiveData<String?>()
     private val _email = MutableLiveData<String>()
+    private val _imageResId = MutableLiveData<String?>()
+
     val username: LiveData<String?> get() = _username
     val email: LiveData<String> get() = _email
+    val imageResId: LiveData<String?> get() = _imageResId
 
     fun getHeaderDetails() {
         viewModelScope.launch {
@@ -28,6 +31,7 @@ class HeaderViewModel(app: Application) : AndroidViewModel(app) {
                 val user = userDao.getUserById(userId) ?: return@launch
                 _username.postValue(user.username)
                 _email.postValue(user.email)
+                _imageResId.postValue(user.imageUri)
             }
             catch(ex: Exception) {
                 Log.i("HeaderDrawerDetails", "Failed To Load Header User Details: ${ex.message}")
