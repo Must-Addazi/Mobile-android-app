@@ -29,10 +29,19 @@ interface UserDao {
     @Query("SELECT * FROM users WHERE email = :email")
     suspend fun getUserByEmail(email: String): User?
 
-    @Update
-    suspend fun updateUser(user: User)
+//    @Update
+//    suspend fun updateUser(user: User)
+
+//    @Query("SELECT * FROM users WHERE userId = :userId")
+//    suspend fun getUserById(userId: Int): User?
+
+    // For Image Handling
+    @Query("UPDATE users SET imageUri = :imageUri WHERE userId = :userId")
+    suspend fun updateUserImageUri(userId: Int, imageUri: String)
 
     @Query("SELECT * FROM users WHERE userId = :userId")
     suspend fun getUserById(userId: Int): User?
 
+    @Update
+    suspend fun updateUser(user: User)
 }

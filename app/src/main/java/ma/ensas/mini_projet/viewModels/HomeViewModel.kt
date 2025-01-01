@@ -1,15 +1,16 @@
 package ma.ensas.mini_projet.viewModels
 
+import android.annotation.SuppressLint
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import ma.ensas.mini_projet.R
 import ma.ensas.mini_projet.data.dao.ProductDao
-import ma.ensas.mini_projet.data.dao.ReservationDao
 import ma.ensas.mini_projet.data.database.MediMarketDatabase
 import ma.ensas.mini_projet.data.entities.Product
 import ma.ensas.mini_projet.utils.enumerations.ProductTypes
@@ -19,43 +20,50 @@ import java.util.Locale
 import kotlin.random.Random
 
 class HomeViewModel(app: Application) : AndroidViewModel(app) {
-    private val productDao: ProductDao = MediMarketDatabase.getDatabase(app).productDao()
-    private val reservationDao:ReservationDao = MediMarketDatabase.getDatabase(app).reservationDao()
+
     private val _products = MutableLiveData<List<Product>>()
     private val _filteredProducts = MutableLiveData<List<Product>>()
 
     val products: LiveData<List<Product>> get() = _products
     val filteredProducts: LiveData<List<Product>> get() = _filteredProducts
 
+    private val productDao: ProductDao = MediMarketDatabase.getDatabase(app).productDao()
+
     init {
-    //  deleteAllReservations()
-    //   deleteAllProducts()
-     //insertRandomProducts()
+     //   removeProducts()
+      //  insertRandomProducts()
         loadProductsFromDatabase()
     }
 
+    private fun removeProducts() {
+        viewModelScope.launch (Dispatchers.IO) {
+            try {
+                Log.i("mustapha","delete product")
+                productDao.deleteAllProducts()
+            } catch (ex: Exception) {
+                Log.i("mustapha", "Failed To Delete Products")
+            }
+        }
+    }
 
     private fun loadProductsFromDatabase() {
         viewModelScope.launch(Dispatchers.IO) {
-            val productsList = productDao.getAllProducts()
-            _products.postValue(productsList)
-            _filteredProducts.postValue(productsList)
+            try {
+                Log.i("mustapha","load product")
+                val productsList = productDao.getAllProducts()
+                _products.postValue(productsList)
+                _filteredProducts.postValue(productsList)
+            }
+            catch (ex: Exception) {
+                Log.i("mustapha", "Failed to load products ${ex.message}")
+            }
         }
     }
 
-    fun deleteAllProducts() {
-        viewModelScope.launch(Dispatchers.IO) {
-            productDao.deleteAllProducts()
-            _products.postValue(emptyList())
-        }
-    }
-    fun deleteAllReservations() {
-        viewModelScope.launch(Dispatchers.IO) {
-reservationDao.deleteAllReservations()
-        }
-    }
-
+    @SuppressLint("SimpleDateFormat")
     private fun insertRandomProducts() {
+        Log.i("mustapha","insert products")
+
         val dateFormat = SimpleDateFormat("dd/MM/yyyy")
 
         val expirationDateStr = dateFormat.format(Date())
@@ -76,14 +84,13 @@ reservationDao.deleteAllReservations()
                     stock = Random.nextInt(1, 100),
                     expirationDate = dateFormat.parse(expirationDateStr) ?: Date(),
                     type = if (i % 2 == 0) ProductTypes.MEDICAMENT else ProductTypes.VITAMIN,
-                    productImage = null
+                    imageResId = R.drawable.default_prod_img
                 )
 
                 val insertedId: Long = productDao.insertProduct(product)
                 val productWithId = product.copy(productId = insertedId.toInt())
                 productsList.add(productWithId)
             }
-
             _products.postValue(productsList)
         }
 
@@ -96,11 +103,11 @@ reservationDao.deleteAllReservations()
         } else {
             val filteredList =
                 currentProducts.filter {
-                    it.name.contains(query, ignoreCase = true) || it.description.contains(query, ignoreCase = true)
+                    it.name.contains(query, ignoreCase = true)
                 }
             _filteredProducts.postValue(filteredList)
         }
     }
 
-}
 
+}

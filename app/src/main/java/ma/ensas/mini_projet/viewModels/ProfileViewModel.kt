@@ -26,7 +26,7 @@ class ProfileViewModel(app: Application) : AndroidViewModel(app) {
                 val user = userDao.getUserById(userId)
                 _userDetails.postValue(user)
             } catch (ex: RuntimeException) {
-                Log.e("loadUserDetails", "Failed To Load User Details")
+                Log.e("loadUserDetails", "Failed To Load User Details: ${ex.message}")
                 _userDetails.postValue(null)
             }
         }
@@ -39,6 +39,18 @@ class ProfileViewModel(app: Application) : AndroidViewModel(app) {
                 _userDetails.postValue(user)
             } catch (ex: Exception) {
                 Log.e("applyChanges", "Failed to update user: ${ex.message}")
+            }
+        }
+    }
+
+    fun updateUserImageUri(userId: Int, imageUri: String) {
+        viewModelScope.launch {
+            try {
+                userDao.updateUserImageUri(userId, imageUri)
+                val updatedUser = userDao.getUserById(userId)
+                _userDetails.postValue(updatedUser)
+            } catch (ex: Exception) {
+                Log.e("updateUserImageUri", "Failed to update image URI: ${ex.message}")
             }
         }
     }

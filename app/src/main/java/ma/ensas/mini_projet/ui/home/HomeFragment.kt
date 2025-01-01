@@ -33,8 +33,9 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+
         setupRecyclerView()
-            homeViewModel= ViewModelProvider(this)[HomeViewModel::class.java]
+
         homeViewModel.products.observe(viewLifecycleOwner) { products ->
             productAdapter.updateProducts(products)
         }
@@ -44,6 +45,7 @@ class HomeFragment : Fragment() {
         }
 
         setupMenu()
+
         return binding.root
     }
 
@@ -94,5 +96,4 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

@@ -15,12 +15,9 @@ import ma.ensas.mini_projet.viewModels.ReservationViewModel
 class ReservationFragment : Fragment() {
 
     private var _binding: FragmentReservationBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
-    private lateinit var reservationAdapter:ReservationAdapter
+    private lateinit var reservationAdapter: ReservationAdapter
     private lateinit var reservationViewModel: ReservationViewModel
 
     override fun onCreateView(
@@ -38,35 +35,23 @@ class ReservationFragment : Fragment() {
         return root
     }
 
-
-        private fun setupRecyclerView() {
-            reservationAdapter = ReservationAdapter(emptyList()) { reservation ->
-                Handler().postDelayed({
-                    Log.i("mustapha", "authenticated")
-
-
-                 //   findNavController().navigate(R.id.action_homeFragment_to_detailsFragment2)
-                }, 1000)
-            }
-
-            binding.recyclerView.apply {
-                adapter = reservationAdapter
-                binding.recyclerView.layoutManager = GridLayoutManager(context, 2)
-            }
+    private fun setupRecyclerView() {
+        binding.recyclerView.apply {
+            adapter = reservationAdapter
+            binding.recyclerView.layoutManager = GridLayoutManager(context, 2)
         }
+    }
 
-
-
-        private fun observeProducts() {
-            reservationViewModel.reservationDTOs.observe(viewLifecycleOwner) { reservationDTO ->
-                reservationAdapter.updateReservation(reservationDTO)
-            }
+    private fun observeProducts() {
+        reservationViewModel.reservationDTOs.observe(viewLifecycleOwner) { reservationDTO ->
+            reservationAdapter.updateReservation(reservationDTO)
         }
+    }
 
-        override fun onDestroyView() {
-            super.onDestroyView()
-            _binding = null
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
 
 

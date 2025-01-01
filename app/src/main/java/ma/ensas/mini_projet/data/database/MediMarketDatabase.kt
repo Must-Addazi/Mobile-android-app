@@ -13,7 +13,7 @@ import ma.ensas.mini_projet.data.entities.Product
 import ma.ensas.mini_projet.data.entities.Reservation
 import ma.ensas.mini_projet.data.entities.User
 
-@Database(entities = [User::class, Product::class, Reservation::class], version = 2, exportSchema = false)
+@Database(entities = [User::class, Product::class, Reservation::class], version = 3, exportSchema = false)
 @TypeConverters(Convertors::class)
 abstract class MediMarketDatabase : RoomDatabase() {
 

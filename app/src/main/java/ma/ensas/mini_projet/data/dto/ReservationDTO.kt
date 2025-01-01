@@ -1,4 +1,4 @@
-package ma.ensas.mini_projet.data.DTOS
+package ma.ensas.mini_projet.data.dto
 
 import ma.ensas.mini_projet.utils.enumerations.ReservationStatus
 import java.util.Date

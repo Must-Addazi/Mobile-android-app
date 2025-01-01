@@ -3,7 +3,7 @@ package ma.ensas.mini_projet.ui.reservation
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ma.ensas.mini_projet.data.DTOS.ReservationDTO
+import ma.ensas.mini_projet.data.dto.ReservationDTO
 import ma.ensas.mini_projet.databinding.ItemReservationBinding
 import java.text.SimpleDateFormat
 import java.util.Locale
