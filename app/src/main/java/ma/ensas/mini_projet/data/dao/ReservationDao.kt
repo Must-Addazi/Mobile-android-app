@@ -9,6 +9,8 @@ import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 import ma.ensas.mini_projet.data.entities.Product
 import ma.ensas.mini_projet.data.entities.Reservation
+import ma.ensas.mini_projet.utils.enumerations.ReservationStatus
+import java.util.Date
 
 @Dao
 interface ReservationDao {
@@ -27,4 +29,11 @@ interface ReservationDao {
     @Query("SELECT * FROM reservations WHERE id = :reservationId")
     suspend fun getReservationsById(reservationId: Int) : Reservation
 
+    @Query("SELECT * FROM reservations WHERE productId = :productId Limit 1")
+    suspend fun getReservationsByProductId(productId: Int) : Reservation?
+
+    @Query("DELETE FROM reservations")
+    suspend fun deleteAllReservations()
+    @Query("UPDATE reservations SET quantity = quantity + 1,status= :upStatus,reservedAt= :date WHERE id = :reservationId")
+    suspend fun updateQuantity(reservationId: Int,upStatus:ReservationStatus, date:Date):Int
 }

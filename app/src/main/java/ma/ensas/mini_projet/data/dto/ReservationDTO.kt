@@ -8,5 +8,6 @@ data class ReservationDTO(
     val reservedAt: Date,
     val status: ReservationStatus,
     val userId: Int,
-    val productName: String
+    val productName: String,
+    val quantity:Int
 )

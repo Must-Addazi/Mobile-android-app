@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var headerViewModel: HeaderViewModel
 
@@ -64,9 +65,9 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_reservation, R.id.nav_profile, R.id.nav_logout
-            ), drawerLayout
-        )
+                R.id.nav_home,
+                R.id.nav_logout, R.id.nav_reservation ,R.id.nav_profile
+        ),drawerLayout)
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
