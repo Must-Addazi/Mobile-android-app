@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import ma.ensas.mini_projet.databinding.FragmentReservationBinding
 import ma.ensas.mini_projet.viewModels.ReservationViewModel
@@ -34,8 +35,21 @@ class ReservationFragment : Fragment() {
         observeProducts()
         return root
     }
-
     private fun setupRecyclerView() {
+        reservationAdapter = ReservationAdapter(emptyList()) { reservation ->
+            Handler().postDelayed({
+                reservationViewModel.loadProduct(reservation.productName)
+
+                reservationViewModel.product.observe(viewLifecycleOwner) { productId ->
+                    Log.i("mustapha", "product found $productId")
+                    val action = ReservationFragmentDirections.actionFragmentReservationToDetailsFragment(productId)
+
+                    findNavController().navigate(action)
+
+                }
+            }, 1000)
+        }
+
         binding.recyclerView.apply {
             adapter = reservationAdapter
             binding.recyclerView.layoutManager = GridLayoutManager(context, 2)

@@ -37,6 +37,7 @@ class DetailsViewModel(app: Application) : AndroidViewModel(app) {
             try {
                 val upProduct = productDao.decreaseStock(productId)
                 val existingReservation = reservationDao.getReservationsByProductId(productId)
+                Log.i("mustpha","existing reservation $existingReservation")
                 if (existingReservation != null) {
                     val product= productDao.getProductById(productId)
                     if (product != null) {

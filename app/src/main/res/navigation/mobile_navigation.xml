@@ -21,7 +21,7 @@
     <fragment
         android:id="@+id/welcomeFragment"
         android:name="ma.ensas.mini_projet.ui.auth.WelcomeFragment"
-        android:label="fragment_welcome"
+        android:label="Welcome"
         tools:layout="@layout/fragment_welcome" >
         <action
             android:id="@+id/action_welcomeFragment_to_loginFragment"
@@ -33,7 +33,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="ma.ensas.mini_projet.ui.auth.LoginFragment"
-        android:label="fragment_login"
+        android:label="Login"
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
@@ -45,7 +45,7 @@
     <fragment
         android:id="@+id/registerFragment"
         android:name="ma.ensas.mini_projet.ui.auth.RegisterFragment"
-        android:label="fragment_register"
+        android:label="Registration"
         tools:layout="@layout/fragment_register" >
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
@@ -54,28 +54,40 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="ma.ensas.mini_projet.ui.home.HomeFragment"
-        android:label="fragment_home"
+        android:label="Home"
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_detailsFragment2"
             app:destination="@id/detailsFragment" />
+        <argument
+            android:name="product_id"
+            app:argType="integer" />
         <action
             android:id="@+id/action_homeFragment_to_welcomeFragment"
             app:destination="@id/welcomeFragment" />
     </fragment>
     <fragment
-        android:id="@+id/detailsFragment"
-        android:name="ma.ensas.mini_projet.ui.home.DetailsFragment"
-        android:label="fragment_details"
-        tools:layout="@layout/fragment_details" />
-    <fragment
         android:id="@+id/fragment_reservation"
         android:name="ma.ensas.mini_projet.ui.reservation.ReservationFragment"
-        android:label="fragment_gallery"
-        tools:layout="@layout/fragment_reservation" />
+        android:label="Reservations"
+        tools:layout="@layout/fragment_reservation">
+        <action
+            android:id="@+id/action_fragment_reservation_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="ma.ensas.mini_projet.ui.home.DetailsFragment"
+        android:label="Details"
+        tools:layout="@layout/fragment_details">
+        <argument
+            android:name="product_id"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="ma.ensas.mini_projet.ui.profile.ProfileFragment"
-        android:label="fragment_profile"
+        android:label="Profile"
         tools:layout="@layout/fragment_profile" />
+
 </navigation>

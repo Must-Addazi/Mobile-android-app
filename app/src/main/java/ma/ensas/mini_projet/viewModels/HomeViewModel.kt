@@ -11,6 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ma.ensas.mini_projet.R
 import ma.ensas.mini_projet.data.dao.ProductDao
+import ma.ensas.mini_projet.data.dao.ReservationDao
 import ma.ensas.mini_projet.data.database.MediMarketDatabase
 import ma.ensas.mini_projet.data.entities.Product
 import ma.ensas.mini_projet.utils.enumerations.ProductTypes
@@ -28,10 +29,13 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
     val filteredProducts: LiveData<List<Product>> get() = _filteredProducts
 
     private val productDao: ProductDao = MediMarketDatabase.getDatabase(app).productDao()
+    private val reservationDao: ReservationDao = MediMarketDatabase.getDatabase(app).reservationDao()
+
 
     init {
-     //   removeProducts()
-      //  insertRandomProducts()
+        //  deleteAllReservations()
+      //    removeProducts()
+     //  insertRandomProducts()
         loadProductsFromDatabase()
     }
 
@@ -40,8 +44,19 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
             try {
                 Log.i("mustapha","delete product")
                 productDao.deleteAllProducts()
+                _products.postValue(emptyList())
             } catch (ex: Exception) {
                 Log.i("mustapha", "Failed To Delete Products")
+            }
+        }
+    }
+    private fun deleteAllReservations(){
+        viewModelScope.launch (Dispatchers.IO) {
+            try {
+                Log.i("mustapha","delete reservation")
+                reservationDao.deleteAllReservations()
+            } catch (ex: Exception) {
+                Log.i("mustapha", "Failed To Delete reservations")
             }
         }
     }
@@ -70,7 +85,7 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
 
         viewModelScope.launch(Dispatchers.IO) {
             val productsList = mutableListOf<Product>()
-            for (i in 1..10) {
+            for (i in 1..12) {
                 val product = Product(
                     productId = 0,
                     name = "Produit $i",
@@ -81,7 +96,7 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
                         Chaque unité est soi
                         """.trimIndent(),
                     price = String.format(Locale.US, "%.3f", Random.nextDouble(10.0, 200.0)).toDouble(),
-                    stock = Random.nextInt(1, 100),
+                    stock = Random.nextInt(1, 10),
                     expirationDate = dateFormat.parse(expirationDateStr) ?: Date(),
                     type = if (i % 2 == 0) ProductTypes.MEDICAMENT else ProductTypes.VITAMIN,
                     imageResId = R.drawable.default_prod_img

@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import kotlinx.coroutines.launch
 import ma.ensas.mini_projet.databinding.FragmentDetailsBinding
 import ma.ensas.mini_projet.utils.SessionManager
@@ -36,7 +37,10 @@ class DetailsFragment : Fragment() {
 
         detailsViewModel = ViewModelProvider(this)[DetailsViewModel::class.java]
 
-        productId = arguments?.getInt("product_id") ?: 0
+        val args: DetailsFragmentArgs by navArgs()
+             productId = args.productId
+        Log.i("mustapha", "Received product ID: $productId")
+
         detailsViewModel.getProductById(productId)
         sessionManager = SessionManager(requireContext())
     }
@@ -61,8 +65,11 @@ class DetailsFragment : Fragment() {
                 binding.expiredAt.text = formattedDate
                 binding.description.text = it.detailedDescription
                 binding.price.text = "${it.price} MAD"
-                binding.stock.text = "${it.stock} in stock"
-                stock = it.stock
+                if(it.stock>0)
+                    binding.stock.text= "${it.stock} in stock"
+                else
+                    binding.stock.text= "out of stock"
+                stock=it.stock
                 binding.productImage.setImageResource(it.imageResId)
             } ?: run {
                 Log.i("DetailsFragment", "Product Not Found")
@@ -73,12 +80,12 @@ class DetailsFragment : Fragment() {
 
             lifecycleScope.launch {
 
-                detailsViewModel.saveReservation(
+                val reservationId =   detailsViewModel.saveReservation(
                     userId =loggedUser
                     ,productId = productId,
                     stock = stock
                 )
-                    Toast.makeText(requireContext(), "Reservation Succeed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Reservation Succeed $reservationId", Toast.LENGTH_SHORT).show()
             }
         }
 

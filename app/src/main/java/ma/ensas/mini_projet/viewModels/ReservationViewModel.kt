@@ -11,6 +11,7 @@ import ma.ensas.mini_projet.data.dto.ReservationDTO
 import ma.ensas.mini_projet.data.dao.ProductDao
 import ma.ensas.mini_projet.data.dao.ReservationDao
 import ma.ensas.mini_projet.data.database.MediMarketDatabase
+import ma.ensas.mini_projet.data.entities.Product
 import ma.ensas.mini_projet.data.entities.Reservation
 
 class ReservationViewModel(app: Application) : AndroidViewModel(app) {
@@ -18,6 +19,8 @@ class ReservationViewModel(app: Application) : AndroidViewModel(app) {
     private val productDao : ProductDao = MediMarketDatabase.getDatabase(app).productDao()
     private val _reservationDTOs = MutableLiveData<List<ReservationDTO>>()
     val reservationDTOs: LiveData<List<ReservationDTO>> get() = _reservationDTOs
+    private val _product = MutableLiveData<Int>()
+    val product:LiveData<Int> get() = _product
 
     init {
         loadReservations()
@@ -25,23 +28,17 @@ class ReservationViewModel(app: Application) : AndroidViewModel(app) {
 
     private fun loadReservations() {
         viewModelScope.launch {
-            try {
-                Log.i("mustapha", "reservation load ")
-                reservationDao.getAllReservations().collect { reservations ->
-                    Log.i("mustapha","reservations loaded $reservations")
-                    val reservationDTOList = reservations.map { reservation ->
-                        val productName = productDao.getProductNameById(reservation.productId)
-                        mapToReservationDTO(reservation, productName)
-                    }
-                    _reservationDTOs.postValue(reservationDTOList)
+            reservationDao.getAllReservations().collect { reservations ->
+                val reservationDTOList = reservations.map { reservation ->
+                    val productName = productDao.getProductNameById(reservation.productId)
+                    Log.i("mustapha","product name : $productName")
+                    mapToReservationDTO(reservation, productName)
                 }
-            } catch (e: Exception) {
-                Log.e("mustapha", "Error loading reservations", e)
+                _reservationDTOs.postValue(reservationDTOList)
             }
+
         }
-
     }
-
     private fun mapToReservationDTO(reservation: Reservation, productName: String): ReservationDTO {
         return ReservationDTO(
             id = reservation.id,
@@ -51,6 +48,12 @@ class ReservationViewModel(app: Application) : AndroidViewModel(app) {
             quantity = reservation.quantity,
             productName = productName
         )
+    }
+     fun loadProduct(name:String) {
+        viewModelScope.launch {
+         val id=  productDao.getProductIdByName(name)
+            _product.postValue(id.toInt())
+        }
     }
 
     private val _text = MutableLiveData<String>().apply {
