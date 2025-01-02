@@ -47,26 +47,30 @@ class MainActivity : AppCompatActivity() {
         loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
         headerViewModel = ViewModelProvider(this)[HeaderViewModel::class.java]
 
+        headerViewModel.getHeaderDetails()
+
         headerViewModel.username.observe(this) { username ->
             nameTextView.text = username
         }
         headerViewModel.email.observe(this) { email ->
             emailTextView.text = email
         }
-//        headerViewModel.imageResId.observe(this) { imageResId ->
-//            imageResId?.let {
-//                profileShapeableImage.setImageResource(imageResId)
-//            }
-//        }
 
-        headerViewModel.getHeaderDetails()
+        headerViewModel.imageResId.observe(this) { imgResId ->
+            imgResId?.let {
+                profileShapeableImage.setImageResource(imgResId)
+            }
+        }
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_home,
-                R.id.nav_logout, R.id.nav_reservation ,R.id.nav_profile
+                R.id.nav_logout,
+                R.id.nav_reservation,
+                R.id.nav_dashboard,
+                R.id.nav_profile
         ),drawerLayout)
 
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -86,6 +90,11 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_profile->{
                     navController.navigate(R.id.profileFragment)
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                    true
+                }
+                R.id.nav_dashboard->{
+                    navController.navigate(R.id.dashboardFragment)
                     drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ma.ensas.mini_projet.R
 import ma.ensas.mini_projet.data.entities.Product
 import ma.ensas.mini_projet.databinding.ItemProductBinding
 

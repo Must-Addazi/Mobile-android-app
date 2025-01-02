@@ -13,7 +13,7 @@ data class User(
     val password: String,
     val phoneNumber: String?,
     val birthDate: Date?,
-    val imageUri: String? = null,
+    val imageUri: Int = R.drawable.default_user_profile,
     val role: Roles = Roles.USER,
 
     @PrimaryKey(autoGenerate = true)
