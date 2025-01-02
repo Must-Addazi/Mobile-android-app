@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import ma.ensas.mini_projet.R
 import ma.ensas.mini_projet.data.database.MediMarketDatabase
+import ma.ensas.mini_projet.data.entities.Product
 import ma.ensas.mini_projet.databinding.FragmentHomeBinding
 import ma.ensas.mini_projet.ui.reservation.ReservationFragmentDirections
 import ma.ensas.mini_projet.viewModels.HomeViewModel
@@ -37,11 +38,14 @@ class HomeFragment : Fragment() {
 
         setupRecyclerView()
 
+
         homeViewModel.products.observe(viewLifecycleOwner) { products ->
+            handleEmptyState(products)
             productAdapter.updateProducts(products)
         }
 
         homeViewModel.filteredProducts.observe(viewLifecycleOwner) { products ->
+            handleEmptyState(products)
             productAdapter.updateProducts(products)
         }
 
@@ -49,6 +53,17 @@ class HomeFragment : Fragment() {
 
         return binding.root
     }
+
+    private fun handleEmptyState(products: List<Product>) {
+        if (products.isEmpty()) {
+            binding.recyclerView.visibility = View.GONE
+            binding.emptyMessage.visibility = View.VISIBLE
+        } else {
+            binding.recyclerView.visibility = View.VISIBLE
+            binding.emptyMessage.visibility = View.GONE
+        }
+    }
+
 
     private fun setupMenu() {
         requireActivity().addMenuProvider(object : MenuProvider {

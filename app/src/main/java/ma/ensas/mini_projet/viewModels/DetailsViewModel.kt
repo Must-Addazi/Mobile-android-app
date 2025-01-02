@@ -32,19 +32,19 @@ class DetailsViewModel(app: Application) : AndroidViewModel(app) {
             }
         }
     @Transaction
-    suspend fun saveReservation(userId: Int, productId: Int, stock: Int): Long {
+    suspend fun saveReservation(userId: Int, productId: Int, stock: Int, quantity:Int): Long {
         return withContext(Dispatchers.IO) {
             try {
-                val upProduct = productDao.decreaseStock(productId)
+                val upProduct = productDao.decreaseStock(productId,quantity)
                 val existingReservation = reservationDao.getReservationsByProductId(productId)
                 Log.i("mustpha","existing reservation $existingReservation")
                 if (existingReservation != null) {
                     val product= productDao.getProductById(productId)
                     if (product != null) {
                         if(product.stock<0) {
-                            reservationDao.updateQuantity(existingReservation.id,ReservationStatus.PENDING, Date())
+                            reservationDao.updateQuantity(existingReservation.id,ReservationStatus.PENDING,quantity, Date())
                         }else{
-                            reservationDao.updateQuantity(existingReservation.id,ReservationStatus.CONFIRMED, Date())
+                            reservationDao.updateQuantity(existingReservation.id,ReservationStatus.CONFIRMED,quantity, Date())
                         }
                     }
                     existingReservation.id.toLong()
@@ -55,7 +55,7 @@ class DetailsViewModel(app: Application) : AndroidViewModel(app) {
                         status = if (stock > 0) ReservationStatus.CONFIRMED else ReservationStatus.PENDING,
                         userId = userId,
                         productId = productId,
-                        quantity = 1
+                        quantity = quantity
                     )
                     val reservationId = reservationDao.insertReservation(reservation)
                     val updatedProduct = productDao.getProductById(productId)

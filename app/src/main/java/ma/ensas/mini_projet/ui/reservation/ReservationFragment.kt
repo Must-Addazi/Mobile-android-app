@@ -10,7 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import ma.ensas.mini_projet.data.dto.ReservationDTO
+import ma.ensas.mini_projet.data.entities.Product
+import ma.ensas.mini_projet.databinding.FragmentHomeBinding
 import ma.ensas.mini_projet.databinding.FragmentReservationBinding
+import ma.ensas.mini_projet.viewModels.HomeViewModel
 import ma.ensas.mini_projet.viewModels.ReservationViewModel
 
 class ReservationFragment : Fragment() {
@@ -33,7 +37,21 @@ class ReservationFragment : Fragment() {
         setupRecyclerView()
 
         observeProducts()
+
+
         return root
+    }
+
+
+
+    private fun handleEmptyState(reservations: List<ReservationDTO>) {
+        if (reservations.isEmpty()) {
+            binding.recyclerView.visibility = View.GONE
+            binding.emptyMessage.visibility = View.VISIBLE
+        } else {
+            binding.recyclerView.visibility = View.VISIBLE
+            binding.emptyMessage.visibility = View.GONE
+        }
     }
     private fun setupRecyclerView() {
         reservationAdapter = ReservationAdapter(emptyList()) { reservation ->
@@ -58,6 +76,7 @@ class ReservationFragment : Fragment() {
 
     private fun observeProducts() {
         reservationViewModel.reservationDTOs.observe(viewLifecycleOwner) { reservationDTO ->
+            handleEmptyState(reservationDTO)
             reservationAdapter.updateReservation(reservationDTO)
         }
     }

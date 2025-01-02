@@ -36,8 +36,8 @@ interface ProductDao {
     @Query("SELECT productId FROM products WHERE name = :productName")
     suspend fun getProductIdByName(productName: String): Long
 
-    @Query("UPDATE products SET stock = stock - 1 WHERE productId = :productId")
-    suspend fun decreaseStock(productId: Int): Int
+    @Query("UPDATE products SET stock = stock - :quantity WHERE productId = :productId")
+    suspend fun decreaseStock(productId: Int,quantity:Int): Int
 
 
 }

@@ -86,6 +86,34 @@
                 android:textSize="18sp" />
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:layout_weight="1"
+                android:text="Unit Price :"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_gravity="start"
+                android:layout_marginStart="20dp"/>
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:text="Xx dhs"
+                android:textSize="18sp" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -111,12 +139,58 @@
                 android:id="@+id/expiredAt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="X in stocks"
+                android:text="dd-mm-yyyy"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@color/soft_red_color"/>
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginVertical="20dp"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:scrollHorizontally="true"
+                    android:layout_weight="1"
+                    android:text="Quantity:"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="20dp" />
+                <SeekBar
+                    android:id="@+id/seekBar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:max="10"
+                    android:progress="0" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/quantityText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Selected Quantity: 1"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="10dp" />
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -125,16 +199,16 @@
             android:gravity="center">
 
             <TextView
-                android:id="@+id/price"
+                android:id="@+id/totalprice"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="18dp"
                 android:layout_weight="1"
                 android:gravity="left"
-                android:layout_marginLeft="18dp"
-                android:text="xx.xx"
+                android:text="00.000"
+                android:textColor="@color/black"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"/>
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/reservebtn"

@@ -34,6 +34,6 @@ interface ReservationDao {
 
     @Query("DELETE FROM reservations")
     suspend fun deleteAllReservations()
-    @Query("UPDATE reservations SET quantity = quantity + 1,status= :upStatus,reservedAt= :date WHERE id = :reservationId")
-    suspend fun updateQuantity(reservationId: Int,upStatus:ReservationStatus, date:Date):Int
+    @Query("UPDATE reservations SET quantity = quantity + :quant,status= :upStatus,reservedAt= :date WHERE id = :reservationId")
+    suspend fun updateQuantity(reservationId: Int,upStatus:ReservationStatus,quant:Int, date:Date):Int
 }
