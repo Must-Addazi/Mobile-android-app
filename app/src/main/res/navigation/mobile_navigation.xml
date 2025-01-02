@@ -89,5 +89,10 @@
         android:name="ma.ensas.mini_projet.ui.profile.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="ma.ensas.mini_projet.ui.dashboard.DashboardFragment"
+        android:label="fragment_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
 
 </navigation>

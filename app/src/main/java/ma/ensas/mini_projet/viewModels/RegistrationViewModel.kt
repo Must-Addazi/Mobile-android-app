@@ -23,7 +23,7 @@ class RegistrationViewModel(app : Application) : AndroidViewModel(app) {
                 username, email, password,
                 phoneNumber = null,
                 birthDate = null,
-                imageUri = ""
+                imageUri = R.drawable.default_user_profile
             )
 
             userDao.insertUser(user)

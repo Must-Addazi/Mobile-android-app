@@ -1,5 +1,6 @@
 package ma.ensas.mini_projet.ui.reservation
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +14,7 @@ class ReservationAdapter(private var reservationList:List<ReservationDTO>,
         inner class ReservationViewHolder(private val binding: ItemReservationBinding) :
             RecyclerView.ViewHolder(binding.root) {
 
+            @SuppressLint("SetTextI18n")
             fun bind(reservation: ReservationDTO) {
                 val formattedDate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(reservation.reservedAt)
                 binding.name.text = reservation.productName
@@ -23,6 +25,7 @@ class ReservationAdapter(private var reservationList:List<ReservationDTO>,
                 binding.root.setOnClickListener { onClick(reservation) }
             }
         }
+        @SuppressLint("NotifyDataSetChanged")
         fun updateReservation(newReservation: List<ReservationDTO>) {
             reservationList = newReservation
             notifyDataSetChanged()

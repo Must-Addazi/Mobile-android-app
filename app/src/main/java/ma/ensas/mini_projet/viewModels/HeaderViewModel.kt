@@ -16,13 +16,13 @@ class HeaderViewModel(app: Application) : AndroidViewModel(app) {
     private val userDao: UserDao = MediMarketDatabase.getDatabase(app).userDao()
     private val sessionManager: SessionManager = SessionManager(app)
 
-    private val _username = MutableLiveData<String?>()
+    private val _username = MutableLiveData<String>()
     private val _email = MutableLiveData<String>()
-    private val _imageResId = MutableLiveData<String?>()
+    private val _imageResId = MutableLiveData<Int>()
 
-    val username: LiveData<String?> get() = _username
+    val username: LiveData<String> get() = _username
     val email: LiveData<String> get() = _email
-    val imageResId: LiveData<String?> get() = _imageResId
+    val imageResId: LiveData<Int> get() = _imageResId
 
     fun getHeaderDetails() {
         viewModelScope.launch {

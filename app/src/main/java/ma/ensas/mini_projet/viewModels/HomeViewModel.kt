@@ -33,9 +33,9 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
 
 
     init {
-      deleteAllReservations()
-   //    removeProducts()
-      insertRandomProducts()
+//        deleteAllReservations()
+//        removeProducts()
+//        insertRandomProducts()
         loadProductsFromDatabase()
     }
 

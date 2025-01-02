@@ -31,4 +31,10 @@
     <string name="enter_your_email">Enter your email</string>
     <string name="enter_your_password">Enter your password</string>
     <string name="search">Search</string>
+    <string name="profile">Profile</string>
+    <string name="logout">Logout</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="product_name">Product Name</string>
+    <string name="user_profile_image">User profile image</string>
+    <string name="product_stock">product stock</string>
 </resources>
