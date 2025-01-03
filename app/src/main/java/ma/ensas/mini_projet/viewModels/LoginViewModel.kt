@@ -20,6 +20,7 @@ class LoginViewModel(app: Application) : AndroidViewModel(app) {
     val loginStatus: LiveData<Boolean> get() = _loginStatus
 
     private val _loggedInUser = MutableLiveData<User?>()
+    val loggedInUser: LiveData<User?> get() = _loggedInUser
 
     fun authenticateUser(username: String, password: String) {
         viewModelScope.launch {
@@ -44,4 +45,5 @@ class LoginViewModel(app: Application) : AndroidViewModel(app) {
         _loginStatus.postValue(false)
         sessionManager.clearSession()
     }
+
 }

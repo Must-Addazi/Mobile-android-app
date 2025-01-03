@@ -16,7 +16,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.imageview.ShapeableImageView
+import ma.ensas.mini_projet.data.entities.User
 import ma.ensas.mini_projet.databinding.ActivityMainBinding
+import ma.ensas.mini_projet.utils.SessionManager
+import ma.ensas.mini_projet.utils.enumerations.Roles
 import ma.ensas.mini_projet.viewModels.HeaderViewModel
 import ma.ensas.mini_projet.viewModels.LoginViewModel
 
@@ -94,8 +97,14 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_dashboard->{
-                    navController.navigate(R.id.dashboardFragment)
-                    drawerLayout.closeDrawer(GravityCompat.START)
+                    loginViewModel.loggedInUser.observe(this) { currentUser ->
+                        if (currentUser?.role == Roles.ADMIN) {
+                            navController.navigate(R.id.dashboardFragment)
+                        } else {
+                            drawerLayout.closeDrawer(GravityCompat.START)
+                            Toast.makeText(this, "Access Denied: Admins Only", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                     true
                 }
                 R.id.nav_logout->{

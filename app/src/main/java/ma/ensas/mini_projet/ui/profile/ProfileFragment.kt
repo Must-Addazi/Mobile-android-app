@@ -17,7 +17,6 @@ import ma.ensas.mini_projet.databinding.FragmentProfileBinding
 import ma.ensas.mini_projet.utils.enumerations.Roles
 import ma.ensas.mini_projet.viewModels.ProfileViewModel
 import java.text.SimpleDateFormat
-import ma.ensas.mini_projet.utils.ImageConverter
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import ma.ensas.mini_projet.R
