@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -55,7 +54,6 @@ class LoginFragment : Fragment() {
 
         loginViewModel.loginStatus.observe(viewLifecycleOwner, Observer { success ->
             if(success) {
-                // I have to save the user's context
                 findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
             }
             else {

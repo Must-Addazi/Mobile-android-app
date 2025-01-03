@@ -33,45 +33,34 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
 
 
     init {
-    //   deleteAllReservations()
-   //  removeProducts()
-  //  insertRandomProducts()
+        insertRandomProducts()
         loadProductsFromDatabase()
     }
 
-    private fun removeProducts() {
-        viewModelScope.launch (Dispatchers.IO) {
-            try {
-                Log.i("mustapha","delete product")
-                productDao.deleteAllProducts()
-                _products.postValue(emptyList())
-            } catch (ex: Exception) {
-                Log.i("mustapha", "Failed To Delete Products")
-            }
-        }
-    }
-    private fun deleteAllReservations(){
-        viewModelScope.launch (Dispatchers.IO) {
-            try {
-                Log.i("mustapha","delete reservation")
-                reservationDao.deleteAllReservations()
-            } catch (ex: Exception) {
-                Log.i("mustapha", "Failed To Delete reservations")
-            }
-        }
-    }
 
     private fun loadProductsFromDatabase() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                Log.i("mustapha","load product")
                 val productsList = productDao.getAllProducts()
                 _products.postValue(productsList)
                 _filteredProducts.postValue(productsList)
             }
             catch (ex: Exception) {
-                Log.i("mustapha", "Failed to load products ${ex.message}")
+                Log.i("loadProducts", "Failed to load products ${ex.message}")
             }
+        }
+    }
+
+    fun searchProducts(query: String) {
+        val currentProducts = _products.value ?: emptyList()
+        if (query.isBlank()) {
+            _filteredProducts.postValue(currentProducts)
+        } else {
+            val filteredList =
+                currentProducts.filter {
+                    it.name.contains(query, ignoreCase = true)
+                }
+            _filteredProducts.postValue(filteredList)
         }
     }
 
@@ -82,6 +71,8 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
 
         val expirationDate = dateFormat.parse("31/12/2025") ?: Date()
         viewModelScope.launch(Dispatchers.IO) {
+            val products = productDao.getAllProducts()
+            if(products.isNotEmpty()) return@launch
             val productsList = mutableListOf<Product>()
                 val product1 = Product(
                     productId = 0,
@@ -102,21 +93,22 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
                 val insertedId1: Long = productDao.insertProduct(product1)
                 val productWithId1 = product1.copy(productId = insertedId1.toInt())
                 productsList.add(productWithId1)
-            val product6 = Product(
-                productId = 0,
-                name = "Vitamin C",
-                description = "Valupak Chewable Vitamin C 80mg Tablets x 60",
-                detailedDescription = """
-                Les comprimés à croquer Valupak de vitamine C 80 mg renforcent puissamment votre système immunitaire tout en favorisant la santé de la peau et les niveaux d'énergie.
+                val product6 = Product(
+                    productId = 0,
+                    name = "Vitamin C",
+                    description = "Valupak Chewable Vitamin C 80mg Tablets x 60",
+                    detailedDescription = """
+                    Les comprimés à croquer Valupak de vitamine C 80 mg renforcent puissamment votre système immunitaire tout en favorisant la santé de la peau et les niveaux d'énergie.
+    
+                    Parfait pour maintenir le bien-être général.
+                         """.trimIndent(),
 
-                Parfait pour maintenir le bien-être général.
-                     """.trimIndent(),
-                price = String.format(Locale.US, "%.3f", 13.02).toDouble(),
-                stock = Random.nextInt(1, 10),
-                expirationDate = expirationDate,
-                type =  ProductTypes.VITAMIN ,
-                imageResId = R.drawable.c
-            )
+                    price = String.format(Locale.US, "%.3f", 13.02).toDouble(),
+                    stock = Random.nextInt(1, 10),
+                    expirationDate = expirationDate,
+                    type =  ProductTypes.VITAMIN ,
+                    imageResId = R.drawable.c
+                )
 
             val insertedId6: Long = productDao.insertProduct(product6)
             val productWithId6 = product6.copy(productId = insertedId6.toInt())
@@ -140,6 +132,7 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
             val insertedId2: Long = productDao.insertProduct(product2)
             val productWithId2 = product2.copy(productId = insertedId2.toInt())
             productsList.add(productWithId2)
+
             val product7 = Product(
                 productId = 0,
                 name = "Vitamin D3",
@@ -159,6 +152,7 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
             val insertedId7: Long = productDao.insertProduct(product7)
             val productWithId7 = product7.copy(productId = insertedId7.toInt())
             productsList.add(productWithId7)
+
             val product3 = Product(
                 productId = 0,
                 name = "Aspirin",
@@ -178,6 +172,7 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
             val insertedId3: Long = productDao.insertProduct(product3)
             val productWithId3 = product3.copy(productId = insertedId3.toInt())
             productsList.add(productWithId3)
+
             val product8 = Product(
                 productId = 0,
                 name = "Calcium",
@@ -217,15 +212,17 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
             val insertedId4: Long = productDao.insertProduct(product4)
             val productWithId4 = product4.copy(productId = insertedId4.toInt())
             productsList.add(productWithId4)
+
             val product9 = Product(
                 productId = 0,
                 name = "Zinc",
                 description = "Zinc Oxide Tape 2.5cm x 10m",
                 detailedDescription = """
-           Le ruban d'oxyde de zinc est utilisé par les athlètes pour prévenir les blessures, protéger les plaies et accélérer le temps de guérison.
-
-           Il est principalement appliqué aux articulations telles que les poignets, les genoux et les chevilles.
+               Le ruban d'oxyde de zinc est utilisé par les athlètes pour prévenir les blessures, protéger les plaies et accélérer le temps de guérison.
+    
+               Il est principalement appliqué aux articulations telles que les poignets, les genoux et les chevilles.
                                     """.trimIndent(),
+
                 price = String.format(Locale.US, "%.3f", 20.08).toDouble(),
                 stock = Random.nextInt(1, 10),
                 expirationDate = expirationDate,
@@ -236,6 +233,7 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
             val insertedId9: Long = productDao.insertProduct(product9)
             val productWithId9 = product9.copy(productId = insertedId9.toInt())
             productsList.add(productWithId9)
+
             val product5 = Product(
                 productId = 0,
                 name = "Metformine",
@@ -256,21 +254,14 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
             val productWithId5 = product5.copy(productId = insertedId5.toInt())
             productsList.add(productWithId5)
 
-
-
-
-
-
-
-
             val product10 = Product(
                 productId = 0,
                 name = "Magnesium",
                 description = "Magnesium Sulfate Paste 50g",
                 detailedDescription = """
-          La pâte de sulfate de magnésium est une pâte à dessin et une solution simple pour traiter les problèmes cutanés gênants et aide à soulager l'inconfort.
-
-          Il s'agit d'un médicament générique. L'emballage, les marques et les saveurs peuvent varier par rapport à ceux affichés. Les images sont uniquement à des fins d’illustration.
+              La pâte de sulfate de magnésium est une pâte à dessin et une solution simple pour traiter les problèmes cutanés gênants et aide à soulager l'inconfort.
+    
+              Il s'agit d'un médicament générique. L'emballage, les marques et les saveurs peuvent varier par rapport à ceux affichés. Les images sont uniquement à des fins d’illustration.
                                              """.trimIndent(),
                 price = String.format(Locale.US, "%.3f", 70.52).toDouble(),
                 stock = Random.nextInt(1, 10),
@@ -286,19 +277,6 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
             _products.postValue(productsList)
         }
 
-    }
-
-    fun searchProducts(query: String) {
-        val currentProducts = _products.value ?: emptyList()
-        if (query.isBlank()) {
-            _filteredProducts.postValue(currentProducts)
-        } else {
-            val filteredList =
-                currentProducts.filter {
-                    it.name.contains(query, ignoreCase = true)
-                }
-            _filteredProducts.postValue(filteredList)
-        }
     }
 
 

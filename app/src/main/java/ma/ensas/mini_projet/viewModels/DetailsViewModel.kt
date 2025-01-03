@@ -21,23 +21,25 @@ import java.util.Date
 class DetailsViewModel(app: Application) : AndroidViewModel(app) {
     private val productDao: ProductDao = MediMarketDatabase.getDatabase(app).productDao()
     private val reservationDao : ReservationDao = MediMarketDatabase.getDatabase(app).reservationDao()
-        private val _product = MutableLiveData<Product?>()
-        val product: LiveData<Product?> get() = _product
+    private val _product = MutableLiveData<Product?>()
+    val product: LiveData<Product?> get() = _product
 
-        fun getProductById(productId: Int) {
-            viewModelScope.launch(Dispatchers.IO) {
-                val productById = productDao.getProductById(productId)
+    fun getProductById(productId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val productById = productDao.getProductById(productId)
 
-                _product.postValue(productById)
-            }
+            _product.postValue(productById)
         }
+    }
+
     @Transaction
     suspend fun saveReservation(userId: Int, productId: Int, stock: Int, quantity:Int): Long {
         return withContext(Dispatchers.IO) {
             try {
-                val upProduct = productDao.decreaseStock(productId,quantity)
+                productDao.decreaseStock(productId,quantity)
                 val existingReservation = reservationDao.getReservationsByProductId(productId)
-                Log.i("mustpha","existing reservation $existingReservation")
+                Log.i("reservation","existing reservation $existingReservation")
+
                 if (existingReservation != null) {
                     val product= productDao.getProductById(productId)
                     if (product != null) {
@@ -48,6 +50,7 @@ class DetailsViewModel(app: Application) : AndroidViewModel(app) {
                         }
                     }
                     existingReservation.id.toLong()
+
                 } else {
                     val reservation = Reservation(
                         id = 0,
@@ -57,13 +60,14 @@ class DetailsViewModel(app: Application) : AndroidViewModel(app) {
                         productId = productId,
                         quantity = quantity
                     )
+
                     val reservationId = reservationDao.insertReservation(reservation)
                     val updatedProduct = productDao.getProductById(productId)
                     _product.postValue(updatedProduct)
                     reservationId
                 }
             } catch (e: Exception) {
-                Log.e("mustapha", "Error during reservation saving: ${e.message}")
+                Log.e("reservation", "Error during reservation saving: ${e.message}")
                 -1L
             }
         }

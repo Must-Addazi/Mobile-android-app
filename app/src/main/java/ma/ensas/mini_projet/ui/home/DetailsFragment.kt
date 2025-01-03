@@ -42,7 +42,6 @@ class DetailsFragment : Fragment() {
 
         val args: DetailsFragmentArgs by navArgs()
              productId = args.productId
-        Log.i("mustapha", "Received product ID: $productId")
 
         detailsViewModel.getProductById(productId)
         sessionManager = SessionManager(requireContext())
@@ -97,12 +96,13 @@ class DetailsFragment : Fragment() {
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                // Optionnel : Faites quelque chose lorsque l'utilisateur commence à glisser
+                //
             }
 
+            @SuppressLint("DefaultLocale")
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
                 if (seekBar != null) {
-                    totalPrice.text = String.format("%.3f", seekBar.progress * unitPrice)
+                    totalPrice.text = String.format("%.2f", seekBar.progress * unitPrice)
                 }
             }
         })
@@ -132,7 +132,7 @@ class DetailsFragment : Fragment() {
                         stock = stock,
                         quantity = selectedQuantity
                     )
-                    Toast.makeText(requireContext(), "Reservation Succeeded: ID $reservationId", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Reservation Succeeded", Toast.LENGTH_SHORT).show()
                 } catch (e: Exception) {
                     Toast.makeText(requireContext(), "Error saving reservation: ${e.message}", Toast.LENGTH_SHORT).show()
                 }

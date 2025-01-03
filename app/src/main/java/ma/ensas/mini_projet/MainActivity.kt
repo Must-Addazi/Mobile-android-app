@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
         initializeDefaultAdmin()
 
-        val sessionManager: SessionManager = SessionManager(this)
+        val sessionManager = SessionManager(this)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -73,8 +73,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_home,
@@ -111,7 +109,7 @@ class MainActivity : AppCompatActivity() {
                         drawerLayout.closeDrawer(GravityCompat.START)
                     } else {
                         drawerLayout.closeDrawer(GravityCompat.START)
-                        Log.i("userRole", "Access denied: ${usersRole}")
+                        Log.i("userRole", "Access denied: $usersRole")
                         Toast.makeText(this, "Access Denied: Admins Only", Toast.LENGTH_SHORT).show()
                     }
                     true

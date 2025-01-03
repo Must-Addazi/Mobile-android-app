@@ -11,10 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import ma.ensas.mini_projet.data.dto.ReservationDTO
-import ma.ensas.mini_projet.data.entities.Product
-import ma.ensas.mini_projet.databinding.FragmentHomeBinding
 import ma.ensas.mini_projet.databinding.FragmentReservationBinding
-import ma.ensas.mini_projet.viewModels.HomeViewModel
 import ma.ensas.mini_projet.viewModels.ReservationViewModel
 
 class ReservationFragment : Fragment() {
@@ -38,11 +35,8 @@ class ReservationFragment : Fragment() {
 
         observeReservations()
 
-
         return root
     }
-
-
 
     private fun handleEmptyState(reservations: List<ReservationDTO>) {
         if (reservations.isEmpty()) {
@@ -53,13 +47,13 @@ class ReservationFragment : Fragment() {
             binding.emptyMessage.visibility = View.GONE
         }
     }
+
     private fun setupRecyclerView() {
         reservationAdapter = ReservationAdapter(emptyList()) { reservation ->
             Handler().postDelayed({
                 reservationViewModel.loadProduct(reservation.productName)
 
                 reservationViewModel.product.observe(viewLifecycleOwner) { productId ->
-                    Log.i("mustapha", "product found $productId")
                     val action = ReservationFragmentDirections.actionFragmentReservationToDetailsFragment(productId)
 
                     findNavController().navigate(action)

@@ -1,5 +1,6 @@
 package ma.ensas.mini_projet.viewModels
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
@@ -38,11 +39,11 @@ class DashboardViewModel(app: Application) : AndroidViewModel(app) {
     private fun loadUsers() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                Log.i("mustapha","load users")
+                Log.i("loadUsers","load users")
                 val usersList = userDao.getUsers()
                 _users.postValue(usersList)
             } catch (ex: Exception) {
-                Log.e("mustapha", "Error loading users: ${ex.message}")
+                Log.e("loadUsers", "Error loading users: ${ex.message}")
             }
         }
     }
@@ -51,13 +52,13 @@ class DashboardViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val availableProductsList = productDao.getAvailableProducts()
-                    _availableProducts.postValue(availableProductsList)
+                _availableProducts.postValue(availableProductsList)
 
-                Log.i("mustapha"," availble product $availableProductsList")
+                Log.i("products"," available product $availableProductsList")
 
                 val outOfStockProductsList = productDao.getOutOfStockProducts()
                     _outOfStockProducts.postValue(outOfStockProductsList)
-                Log.i("mustapha"," not availble product ${outOfStockProductsList}")
+                Log.i("outOfStockProducts"," not available product ${outOfStockProductsList}")
 
             } catch (ex: Exception) {
                 Log.e("DashboardViewModel", "Error loading products: ${ex.message}")

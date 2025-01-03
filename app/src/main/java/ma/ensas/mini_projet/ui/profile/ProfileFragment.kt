@@ -35,10 +35,7 @@ class ProfileFragment : Fragment() {
     @SuppressLint("SimpleDateFormat")
     val format = SimpleDateFormat("yyyy-MM-dd")
 
-    // Store selected image as a ByteArray
-    private var selectedImageByteArray: ByteArray? = null
-
-    // Activity Result Launcher for picking an image
+    // picking an image
     @SuppressLint("SetTextI18n")
     private val pickImageLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()

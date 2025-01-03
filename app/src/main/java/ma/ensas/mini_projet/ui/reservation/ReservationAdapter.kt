@@ -30,12 +30,14 @@ class ReservationAdapter(private var reservationList:List<ReservationDTO>,
             reservationList = newReservation
             notifyDataSetChanged()
         }
+
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReservationViewHolder {
             val binding = ItemReservationBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
             return ReservationViewHolder(binding)
         }
+
         override fun onBindViewHolder(holder: ReservationViewHolder, position: Int) {
             holder.bind(reservationList[position])
         }

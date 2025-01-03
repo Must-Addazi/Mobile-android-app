@@ -31,7 +31,7 @@ class DashboardFragment : Fragment() {
     ): View {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         dashboardViewModel = ViewModelProvider(this)[DashboardViewModel::class.java]
-    Log.i("mustapha","fragment en create")
+
         setupRecyclerView()
         observeViewModel()
 

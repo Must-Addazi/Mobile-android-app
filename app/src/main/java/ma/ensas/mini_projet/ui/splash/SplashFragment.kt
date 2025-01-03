@@ -44,7 +44,7 @@ class SplashFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        splashViewModel = ViewModelProvider(this).get(SplashViewModel::class.java)
+        splashViewModel = ViewModelProvider(this)[SplashViewModel::class.java]
         splashViewModel.isAlreadyAuthenticated()
         
         splashViewModel.userAlreadyLoggedIn.observe(viewLifecycleOwner, Observer { userAuthenticated ->

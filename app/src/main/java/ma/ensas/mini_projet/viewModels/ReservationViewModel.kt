@@ -31,7 +31,7 @@ class ReservationViewModel(app: Application) : AndroidViewModel(app) {
             reservationDao.getAllReservations().collect { reservations ->
                 val reservationDTOList = reservations.map { reservation ->
                     val productName = productDao.getProductNameById(reservation.productId)
-                    Log.i("mustapha","product name : $productName")
+                    Log.i("reservationVM","product name : $productName")
                     mapToReservationDTO(reservation, productName)
                 }
                 _reservationDTOs.postValue(reservationDTOList)
