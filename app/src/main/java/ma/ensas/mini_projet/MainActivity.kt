@@ -15,7 +15,11 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.imageview.ShapeableImageView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import ma.ensas.mini_projet.data.database.MediMarketDatabase
 import ma.ensas.mini_projet.data.entities.User
 import ma.ensas.mini_projet.databinding.ActivityMainBinding
 import ma.ensas.mini_projet.utils.SessionManager
@@ -33,6 +37,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        initializeDefaultAdmin()
+
+        val sessionManager: SessionManager = SessionManager(this)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -97,13 +105,14 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_dashboard->{
-                    loginViewModel.loggedInUser.observe(this) { currentUser ->
-                        if (currentUser?.role == Roles.ADMIN) {
-                            navController.navigate(R.id.dashboardFragment)
-                        } else {
-                            drawerLayout.closeDrawer(GravityCompat.START)
-                            Toast.makeText(this, "Access Denied: Admins Only", Toast.LENGTH_SHORT).show()
-                        }
+                    val usersRole = sessionManager.getUserRole()
+                    if (usersRole == Roles.ADMIN.name) {
+                        navController.navigate(R.id.dashboardFragment)
+                        drawerLayout.closeDrawer(GravityCompat.START)
+                    } else {
+                        drawerLayout.closeDrawer(GravityCompat.START)
+                        Log.i("userRole", "Access denied: ${usersRole}")
+                        Toast.makeText(this, "Access Denied: Admins Only", Toast.LENGTH_SHORT).show()
                     }
                     true
                 }
@@ -145,4 +154,34 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+
+    private fun initializeDefaultAdmin() {
+        val userDao = MediMarketDatabase.getDatabase(this).userDao()
+
+        lifecycleScope.launch (Dispatchers.IO) {
+            val adminUser = userDao.getUserByRole(Roles.ADMIN)
+
+            if (adminUser == null) {
+                val defaultAdmin = User(
+                    username = "admin",
+                    password = "admin123",
+                    role = Roles.ADMIN,
+                    email = "admin@email.com",
+                    phoneNumber = null,
+                    birthDate = null,
+                    userId = 0
+                )
+                try {
+                    userDao.insertUser(defaultAdmin)
+                    Log.d("DefaultAdmin", "Default admin user created")
+                } catch (e: Exception) {
+                    Log.e("DefaultAdmin", "Error creating default admin user: ${e.message}")
+                }
+            } else {
+                Log.d("DefaultAdmin", "Admin user already exists")
+            }
+        }
+    }
+
+
 }

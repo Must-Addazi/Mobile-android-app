@@ -30,6 +30,7 @@ class LoginViewModel(app: Application) : AndroidViewModel(app) {
                     _loggedInUser.postValue(user)
                     _loginStatus.postValue(true)
                     sessionManager.saveUserId(user.userId)
+                    sessionManager.saveUserRole(user.role)
                 } else {
                     _loginStatus.postValue(false)
                 }
