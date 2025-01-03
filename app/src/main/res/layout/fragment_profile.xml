@@ -175,7 +175,6 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/auth_input_bg"
                 android:hint="@string/enter_your_birth_date"
-                android:inputType="date"
                 android:padding="12dp" />
 
             <Button

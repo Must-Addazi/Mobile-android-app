@@ -40,24 +40,6 @@ class ProfileFragment : Fragment() {
 
     // Activity Result Launcher for picking an image
     @SuppressLint("SetTextI18n")
-//    private val pickImageLauncher = registerForActivityResult(
-//        ActivityResultContracts.GetContent()
-//    ) { uri: Uri? ->
-//        uri?.let {
-//            try {
-//                // Convert the selected image to Bitmap
-//                val bitmap = MediaStore.Images.Media.getBitmap(requireContext().contentResolver, it)
-//                // Convert Bitmap to ByteArray
-//                selectedImageByteArray = ImageConverter.bitmapToByteArray(bitmap)
-//
-//                binding.userProfile.setImageBitmap(bitmap)
-//            } catch (ex: Exception) {
-//                binding.errorMsg.text = "Failed to load image: ${ex.message}"
-//                Log.e("ProfileFragment", "Error loading image: ${ex.message}")
-//            }
-//        }
-//    }
-
     private val pickImageLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
@@ -67,7 +49,7 @@ class ProfileFragment : Fragment() {
                 val imagePath = saveImageToInternalStorage(requireContext(), bitmap, currentUserId)
 
                 binding.userProfile.setImageBitmap(bitmap)
-                viewModel.updateUserImageUri(currentUserId, imagePath) // Save the path in the database
+                viewModel.updateUserImageUri(currentUserId, imagePath)
 
             } catch (ex: Exception) {
                 binding.errorMsg.text = "Failed to load image: ${ex.message}"
@@ -96,6 +78,7 @@ class ProfileFragment : Fragment() {
         applyChanges()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initializeUserDetails() {
         viewModel.userDetails.observe(viewLifecycleOwner) { userDetails ->
             if (userDetails != null) {
@@ -110,8 +93,7 @@ class ProfileFragment : Fragment() {
                 if(userDetails.birthDate != null) {
                     binding.birthDateEditText.setText(format.format(userDetails.birthDate))
                 }
-
-                // binding.userProfile.setImageResource(userDetails.imageResId)
+                binding.userProfile.setImageResource(userDetails.imageUri)
             } else {
                 binding.errorMsg.text = "User details not found."
             }
@@ -141,7 +123,6 @@ class ProfileFragment : Fragment() {
                         password = password,
                         phoneNumber = phoneNumber,
                         birthDate = birthDate,
-                        //imageResId = R.drawable.default_user_profile,
                         role = Roles.USER,
                         userId = currentUserId
                     )
@@ -164,7 +145,7 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    fun saveImageToInternalStorage(context: Context, bitmap: Bitmap, userId: Int): String {
+    private fun saveImageToInternalStorage(context: Context, bitmap: Bitmap, userId: Int): String {
         val directory = File(context.filesDir, "userProfiles")
         if (!directory.exists()) directory.mkdirs()
 

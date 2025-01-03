@@ -9,6 +9,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import ma.ensas.mini_projet.data.entities.User
+import ma.ensas.mini_projet.utils.enumerations.Roles
 
 @Dao
 interface UserDao {
@@ -37,4 +38,7 @@ interface UserDao {
 
     @Update
     suspend fun updateUser(user: User)
+
+    @Query("SELECT * FROM users WHERE role = :role")
+    fun getUserByRole(role: Roles): User?
 }
