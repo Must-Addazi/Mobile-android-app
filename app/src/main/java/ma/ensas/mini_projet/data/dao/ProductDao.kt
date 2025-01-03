@@ -41,9 +41,9 @@ interface ProductDao {
     suspend fun decreaseStock(productId: Int,quantity:Int): Int
 
     @Query("SELECT * FROM products WHERE stock > 0")
-    fun getAvailableProducts(): LiveData<List<Product>>
+    fun getAvailableProducts(): List<Product>
 
     @Query("SELECT * FROM products WHERE stock < 1")
-    fun  getOutOfStockProducts(): LiveData<List<Product>>
+    fun  getOutOfStockProducts(): List<Product>
 
 }

@@ -18,13 +18,11 @@ class ProductAdapter(
         @SuppressLint("SetTextI18n")
         fun bind(product: Product) {
 
-            // Bind product details
             binding.name.text = product.name
             binding.price.text = "${product.price} MAD"
             binding.type.text = product.type.toString()
             binding.description.text = product.description
             binding.productImage.setImageResource(product.imageResId)
-            // Set onClick listener
             binding.root.setOnClickListener { onClick(product) }
         }
     }

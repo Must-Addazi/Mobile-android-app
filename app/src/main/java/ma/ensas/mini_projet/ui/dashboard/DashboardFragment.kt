@@ -2,6 +2,7 @@ package ma.ensas.mini_projet.ui.dashboard
 
 import ReservationAdapter
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +10,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import ma.ensas.mini_projet.databinding.FragmentDashboardBinding
-import ma.ensas.mini_projet.ui.dashboard.recyclerViewAdapters.ProductAdapter
 import ma.ensas.mini_projet.ui.dashboard.recyclerViewAdapters.UsersAdapter
+import ma.ensas.mini_projet.ui.dashboard.recyclerViewAdapters.ProductAdapter
 import ma.ensas.mini_projet.viewModels.DashboardViewModel
 
 class DashboardFragment : Fragment() {
@@ -20,7 +21,8 @@ class DashboardFragment : Fragment() {
 
     private lateinit var dashboardViewModel: DashboardViewModel
     private lateinit var usersAdapter: UsersAdapter
-    private lateinit var productsAdapter: ProductAdapter
+    private lateinit var availableProductsAdapter:ProductAdapter
+    private lateinit var outOfStockProductsAdapter:ProductAdapter
     private lateinit var reservationAdapter: ReservationAdapter
 
     override fun onCreateView(
@@ -29,7 +31,7 @@ class DashboardFragment : Fragment() {
     ): View {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         dashboardViewModel = ViewModelProvider(this)[DashboardViewModel::class.java]
-
+    Log.i("mustapha","fragment en create")
         setupRecyclerView()
         observeViewModel()
 
@@ -37,23 +39,22 @@ class DashboardFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        // Initialiser les adaptateurs avec des listes vides
+        availableProductsAdapter = ProductAdapter(emptyList())
+        outOfStockProductsAdapter = ProductAdapter(emptyList())
         usersAdapter = UsersAdapter(emptyList())
-        productsAdapter = ProductAdapter(emptyList())
         reservationAdapter = ReservationAdapter(emptyList())
 
-        // Configurer les RecyclerViews pour une orientation horizontale
         binding.rvUsers.apply {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = usersAdapter
         }
         binding.rvAvailableProducts.apply {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            adapter = productsAdapter
+            adapter = availableProductsAdapter
         }
         binding.rvOutOfStock.apply {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            adapter = productsAdapter
+            adapter = outOfStockProductsAdapter
         }
         binding.rvReservations.apply {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -62,24 +63,21 @@ class DashboardFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        // Observer les données des utilisateurs
         dashboardViewModel.users.observe(viewLifecycleOwner) { users ->
-            usersAdapter.updateData(users)
+            usersAdapter.updateUsers(users)
         }
 
-        // Observer les produits disponibles
         dashboardViewModel.availableProducts.observe(viewLifecycleOwner) { products ->
-            productsAdapter.updateProductList(products)
+            availableProductsAdapter.updateProducts(products)
         }
 
-        // Observer les produits en rupture de stock (ajouter cette méthode si nécessaire)
         dashboardViewModel.outOfStockProducts.observe(viewLifecycleOwner) { products ->
-            productsAdapter.updateProductList(products)
+            outOfStockProductsAdapter.updateProducts(products)
         }
 
         // Observer les réservations
         dashboardViewModel.reservations.observe(viewLifecycleOwner) { reservations ->
-            reservationAdapter.updateReservations(reservations)
+            reservationAdapter.updateReservation(reservations)
         }
     }
 

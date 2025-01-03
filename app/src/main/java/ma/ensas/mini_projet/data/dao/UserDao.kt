@@ -22,7 +22,7 @@ interface UserDao {
 
     @Transaction
     @Query("SELECT * FROM users")
-    fun getUsers() : LiveData<List<User>>
+    fun getUsers() : List<User>
 
     @Query("SELECT * FROM users WHERE username = :username AND password = :password")
     suspend fun login(username: String, password: String): User?

@@ -36,7 +36,7 @@ class ReservationFragment : Fragment() {
         val root: View = binding.root
         setupRecyclerView()
 
-        observeProducts()
+        observeReservations()
 
 
         return root
@@ -74,7 +74,7 @@ class ReservationFragment : Fragment() {
         }
     }
 
-    private fun observeProducts() {
+    private fun observeReservations() {
         reservationViewModel.reservationDTOs.observe(viewLifecycleOwner) { reservationDTO ->
             handleEmptyState(reservationDTO)
             reservationAdapter.updateReservation(reservationDTO)
