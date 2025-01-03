@@ -16,10 +16,13 @@ class HeaderViewModel(app: Application) : AndroidViewModel(app) {
     private val userDao: UserDao = MediMarketDatabase.getDatabase(app).userDao()
     private val sessionManager: SessionManager = SessionManager(app)
 
-    private val _username = MutableLiveData<String?>()
+    private val _username = MutableLiveData<String>()
     private val _email = MutableLiveData<String>()
-    val username: LiveData<String?> get() = _username
+    private val _imageResId = MutableLiveData<Int>()
+
+    val username: LiveData<String> get() = _username
     val email: LiveData<String> get() = _email
+    val imageResId: LiveData<Int> get() = _imageResId
 
     fun getHeaderDetails() {
         viewModelScope.launch {
@@ -28,6 +31,7 @@ class HeaderViewModel(app: Application) : AndroidViewModel(app) {
                 val user = userDao.getUserById(userId) ?: return@launch
                 _username.postValue(user.username)
                 _email.postValue(user.email)
+                _imageResId.postValue(user.imageUri)
             }
             catch(ex: Exception) {
                 Log.i("HeaderDrawerDetails", "Failed To Load Header User Details: ${ex.message}")

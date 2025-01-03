@@ -67,8 +67,12 @@ class RegisterFragment : Fragment() {
             email = binding.email.text.toString()
 
             try {
-                if(username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && password2.isNotEmpty())
-                    registrationViewModel.registerUser(username, email, password, password2)
+                if(username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && password2.isNotEmpty()) {
+                    if(password == password2)
+                        registrationViewModel.registerUser(username, email, password)
+                    else
+                        binding.errorMsg.text = "Passwords don't match!"
+                }
                 else {
                     binding.errorMsg.text = "Please fill all fields"
                 }

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import ma.ensas.mini_projet.R
 import ma.ensas.mini_projet.data.database.MediMarketDatabase
 import ma.ensas.mini_projet.databinding.FragmentHomeBinding
+import ma.ensas.mini_projet.ui.reservation.ReservationFragmentDirections
 import ma.ensas.mini_projet.viewModels.HomeViewModel
 
 class HomeFragment : Fragment() {
@@ -33,7 +34,6 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
-        val productDao = MediMarketDatabase.getDatabase(requireContext()).productDao()
 
         setupRecyclerView()
 
@@ -80,10 +80,8 @@ class HomeFragment : Fragment() {
     private fun setupRecyclerView() {
         productAdapter = ProductAdapter(emptyList()) { product ->
             android.os.Handler().postDelayed({
-                val bundle = Bundle().apply {
-                    putInt("product_id", product.productId)
-                }
-                findNavController().navigate(R.id.action_homeFragment_to_detailsFragment2, bundle)
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment2(product.productId)
+                findNavController().navigate(action)
             }, 1000)
         }
 

@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("com.google.devtools.ksp")
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
+     id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -53,6 +54,7 @@ dependencies {
     implementation(libs.play.services.maps)
     implementation(libs.androidx.legacy.support.v4)
     implementation(libs.androidx.fragment.ktx)
+    implementation(libs.filament.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -70,6 +72,9 @@ dependencies {
 
     // Card View
     implementation(libs.androidx.cardview)
+
+    // dynamic color changing
+    implementation(libs.androidx.core.ktx.v1120)
 }
 java {
     toolchain {

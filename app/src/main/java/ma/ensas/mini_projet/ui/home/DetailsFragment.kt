@@ -1,5 +1,6 @@
 package ma.ensas.mini_projet.ui.home
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import kotlinx.coroutines.launch
 import ma.ensas.mini_projet.databinding.FragmentDetailsBinding
 import ma.ensas.mini_projet.utils.SessionManager
@@ -35,7 +37,10 @@ class DetailsFragment : Fragment() {
 
         detailsViewModel = ViewModelProvider(this)[DetailsViewModel::class.java]
 
-        productId = arguments?.getInt("product_id") ?: 0
+        val args: DetailsFragmentArgs by navArgs()
+             productId = args.productId
+        Log.i("mustapha", "Received product ID: $productId")
+
         detailsViewModel.getProductById(productId)
         sessionManager = SessionManager(requireContext())
     }
@@ -48,21 +53,26 @@ class DetailsFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         detailsViewModel.product.observe(viewLifecycleOwner) { product ->
             product?.let {
-                val formattedDate = SimpleDateFormat("HH:mm:ss dd-MM-yyyy", Locale.getDefault()).format(product.expirationDate)
+                val formattedDate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(product.expirationDate)
                 binding.type.text= product.type.toString()
                 binding.name.text = product.name
                 binding.expiredAt.text = formattedDate
-                binding.description.text= it.detailedDescription
+                binding.description.text = it.detailedDescription
                 binding.price.text = "${it.price} MAD"
-                binding.stock.text= "${it.stock} in stock"
+                if(it.stock>0)
+                    binding.stock.text= "${it.stock} in stock"
+                else
+                    binding.stock.text= "out of stock"
                 stock=it.stock
+                binding.productImage.setImageResource(it.imageResId)
             } ?: run {
-                Log.i("DetailsFragment", "Produit non trouvé")
+                Log.i("DetailsFragment", "Product Not Found")
             }
         }
         binding.reservebtn.setOnClickListener {
@@ -70,14 +80,12 @@ class DetailsFragment : Fragment() {
 
             lifecycleScope.launch {
 
-                val reservationId = detailsViewModel.saveReservation(
-                    userId =loggedUser ,productId = productId, stock = stock
+                val reservationId =   detailsViewModel.saveReservation(
+                    userId =loggedUser
+                    ,productId = productId,
+                    stock = stock
                 )
-                    Toast.makeText(
-                        requireContext(),
-                        "Réservation insérée avec l'ID : $reservationId",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(requireContext(), "Reservation Succeed $reservationId", Toast.LENGTH_SHORT).show()
             }
         }
 

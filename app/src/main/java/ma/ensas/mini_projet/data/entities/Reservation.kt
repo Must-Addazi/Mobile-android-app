@@ -23,5 +23,6 @@ data class Reservation(
 
     // foreign keys
     val userId: Int,
-    val productId: Int
+    val productId: Int,
+    val quantity:Int
 )

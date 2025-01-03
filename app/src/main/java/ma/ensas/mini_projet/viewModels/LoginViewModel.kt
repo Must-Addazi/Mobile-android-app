@@ -20,6 +20,7 @@ class LoginViewModel(app: Application) : AndroidViewModel(app) {
     val loginStatus: LiveData<Boolean> get() = _loginStatus
 
     private val _loggedInUser = MutableLiveData<User?>()
+    val loggedInUser: LiveData<User?> get() = _loggedInUser
 
     fun authenticateUser(username: String, password: String) {
         viewModelScope.launch {
@@ -29,6 +30,7 @@ class LoginViewModel(app: Application) : AndroidViewModel(app) {
                     _loggedInUser.postValue(user)
                     _loginStatus.postValue(true)
                     sessionManager.saveUserId(user.userId)
+                    sessionManager.saveUserRole(user.role)
                 } else {
                     _loginStatus.postValue(false)
                 }
@@ -44,4 +46,5 @@ class LoginViewModel(app: Application) : AndroidViewModel(app) {
         _loginStatus.postValue(false)
         sessionManager.clearSession()
     }
+
 }
