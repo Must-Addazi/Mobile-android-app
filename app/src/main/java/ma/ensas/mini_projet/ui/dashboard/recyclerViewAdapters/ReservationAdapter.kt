@@ -1,14 +1,13 @@
-package ma.ensas.mini_projet.ui.dashboard.recyclerViewAdapters
-
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ma.ensas.mini_projet.data.entities.Reservation
 import ma.ensas.mini_projet.databinding.DashboardItemReservationBinding
 
-class ReservationAdapter(private var reservationList: List<Reservation>)
-    : RecyclerView.Adapter<ReservationAdapter.ReservationViewHolder>() {
+class ReservationAdapter(private var reservationList: List<Reservation>) :
+    RecyclerView.Adapter<ReservationAdapter.ReservationViewHolder>() {
 
     // ViewHolder class
     inner class ReservationViewHolder(private val binding: DashboardItemReservationBinding) :
@@ -35,9 +34,28 @@ class ReservationAdapter(private var reservationList: List<Reservation>)
 
     override fun getItemCount() = reservationList.size
 
-    @SuppressLint("NotifyDataSetChanged")
+    // Méthode pour mettre à jour la liste des réservations avec DiffUtil
     fun updateReservations(newReservations: List<Reservation>) {
+        val diffResult = DiffUtil.calculateDiff(ReservationDiffCallback(reservationList, newReservations))
         reservationList = newReservations
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
+    }
+
+    // DiffUtil Callback
+    class ReservationDiffCallback(
+        private val oldList: List<Reservation>,
+        private val newList: List<Reservation>
+    ) : DiffUtil.Callback() {
+
+        override fun getOldListSize() = oldList.size
+        override fun getNewListSize() = newList.size
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition].id == newList[newItemPosition].id
+        }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition] == newList[newItemPosition]
+        }
     }
 }

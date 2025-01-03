@@ -1,5 +1,6 @@
 package ma.ensas.mini_projet.ui.dashboard
 
+import ReservationAdapter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import ma.ensas.mini_projet.databinding.FragmentDashboardBinding
 import ma.ensas.mini_projet.ui.dashboard.recyclerViewAdapters.ProductAdapter
 import ma.ensas.mini_projet.ui.dashboard.recyclerViewAdapters.UsersAdapter
-import ma.ensas.mini_projet.ui.dashboard.recyclerViewAdapters.ReservationAdapter
+import ma.ensas.mini_projet.viewModels.DashboardViewModel
 
 class DashboardFragment : Fragment() {
 
@@ -36,10 +37,12 @@ class DashboardFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
+        // Initialiser les adaptateurs avec des listes vides
         usersAdapter = UsersAdapter(emptyList())
         productsAdapter = ProductAdapter(emptyList())
         reservationAdapter = ReservationAdapter(emptyList())
 
+        // Configurer les RecyclerViews pour une orientation horizontale
         binding.rvUsers.apply {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = usersAdapter
@@ -58,16 +61,25 @@ class DashboardFragment : Fragment() {
         }
     }
 
-
     private fun observeViewModel() {
+        // Observer les données des utilisateurs
         dashboardViewModel.users.observe(viewLifecycleOwner) { users ->
             usersAdapter.updateData(users)
         }
-//        dashboardViewModel.availableProducts.observe(viewLifecycleOwner) { products ->
-//            productsAdapter.updateData(products)
-//        }
-        dashboardViewModel.users.observe(viewLifecycleOwner) { users ->
-            usersAdapter.updateData(users)
+
+        // Observer les produits disponibles
+        dashboardViewModel.availableProducts.observe(viewLifecycleOwner) { products ->
+            productsAdapter.updateProductList(products)
+        }
+
+        // Observer les produits en rupture de stock (ajouter cette méthode si nécessaire)
+        dashboardViewModel.outOfStockProducts.observe(viewLifecycleOwner) { products ->
+            productsAdapter.updateProductList(products)
+        }
+
+        // Observer les réservations
+        dashboardViewModel.reservations.observe(viewLifecycleOwner) { reservations ->
+            reservationAdapter.updateReservations(reservations)
         }
     }
 

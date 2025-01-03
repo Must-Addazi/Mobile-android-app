@@ -7,16 +7,6 @@
     tools:context=".ui.dashboard.DashboardFragment"
     android:background="@color/bg_primary_color">
 
-    <!-- Number of users
-    users should be displayed in recycler view horizontally -->
-
-    <!-- Number of available products (stock > 0)
-    products should be displayed in recycler view horizontally -->
-
-    <!-- Number of products out of stock (stock <= 0)
-    products should be displayed in recycler view horizontally -->
-
-    <!-- Number of reservations -->
 
     <ScrollView
         android:layout_width="match_parent"
